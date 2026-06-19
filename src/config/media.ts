@@ -5,9 +5,12 @@
 const u = (id: string, w = 1600) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
 
+const BASE = import.meta.env.BASE_URL;
+
 export const media = {
-  // Local brand assets
-  banner: "/images/banniere.png",
+  // Local brand assets (BASE-prefixed so they work at any deploy path)
+  banner: `${BASE}images/banniere.png`,
+  logo: `${BASE}images/logo.png`,
 
   // Ambiance background video (free stock, hotlinkable) + fallback source
   video: "https://videos.pexels.com/video-files/2169880/2169880-hd_1920_1080_30fps.mp4",

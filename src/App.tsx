@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { CartProvider } from "./context/CartContext";
 import Header from "./components/Header";
@@ -34,7 +34,7 @@ function App() {
       <Loader />
       <CustomCursor />
       <SmoothScroll />
-      <BrowserRouter>
+      <HashRouter>
         <ScrollToTop />
         <div className="min-h-screen flex flex-col bg-imperial-ink">
           <Header />
@@ -53,7 +53,7 @@ function App() {
           </main>
           <Footer />
         </div>
-      </BrowserRouter>
+      </HashRouter>
     </CartProvider>
   );
 }

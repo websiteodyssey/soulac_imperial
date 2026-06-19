@@ -4,6 +4,7 @@ import { MapPin, Mail, Clock } from "lucide-react";
 import { InstagramIcon, FacebookIcon } from "./SocialIcons";
 import WaveDivider from "./WaveDivider";
 import { siteConfig } from "../config/siteConfig";
+import { media } from "../config/media";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -15,7 +16,7 @@ const Footer = () => {
         {/* Brand */}
         <div className="col-span-2 md:col-span-4">
           <img
-            src="/images/logo.png"
+            src={media.logo}
             alt={siteConfig.name}
             className="w-28 mb-4"
             style={{ mixBlendMode: "screen" }}

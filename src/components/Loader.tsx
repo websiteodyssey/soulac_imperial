@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { media } from "../config/media";
 
 /** Brief, smooth intro loader: brand logo over black + a single fluid gold fill. */
 const Loader = () => {
@@ -22,7 +23,7 @@ const Loader = () => {
   return (
     <div className={`loader ${done ? "is-done" : ""}`} style={{ background: "#000" }} aria-hidden="true">
       <img
-        src="/images/logo.png"
+        src={media.logo}
         alt=""
         className="w-56 md:w-72 max-w-[70vw] select-none"
         style={{ animation: "logo-in 1s cubic-bezier(0.16,1,0.3,1) both" }}

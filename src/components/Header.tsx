@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ShoppingBag } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { siteConfig } from "../config/siteConfig";
+import { media } from "../config/media";
 import { scrollToTopSmooth } from "../lib/smoothScroll";
 import { useCart } from "../context/CartContext";
 
@@ -67,7 +68,7 @@ const Header = () => {
               }`}
             >
               <img
-                src="/images/logo.png"
+                src={media.logo}
                 alt=""
                 className="absolute inset-0 h-full w-full object-cover scale-[1.6] object-[50%_30%]"
               />
