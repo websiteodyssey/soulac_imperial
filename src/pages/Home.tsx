@@ -62,7 +62,6 @@ const Home = () => {
         <HeroSlideshow />
         <div className="hero-overlay pointer-events-none absolute inset-0" />
         <div className="pointer-events-none absolute inset-0 bg-luxury-black/40" />
-        <div className="frame-inset" />
         <div
           className="gold-halo animate-fade-up pointer-events-none absolute inset-0"
           style={{ animationDelay: "1.3s" }}

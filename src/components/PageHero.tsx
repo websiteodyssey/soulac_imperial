@@ -21,7 +21,6 @@ const PageHero = ({ title, subtitle, image, lead }: PageHeroProps) => (
       className="animate-ken-burns absolute inset-0 h-full w-full object-cover"
     />
     <div className="hero-overlay absolute inset-0 pointer-events-none" />
-    <div className="frame-inset" />
 
     <div className="absolute bottom-5 right-5 z-10 h-16 w-16 animate-fade-up md:bottom-8 md:right-8 md:h-24 md:w-24">
       <SpinningSeal />

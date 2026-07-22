@@ -29,7 +29,6 @@ const Loader = () => {
       }`}
       aria-hidden={fading}
     >
-      <div className="frame-inset" />
       <img
         src={media.logo}
         alt=""
