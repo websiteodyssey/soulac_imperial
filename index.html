@@ -2,10 +2,73 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/images/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Soulac Impérial — Restaurant chinois-japonais à Soulac-sur-Mer. Réservation, click & collect, commande sur place." />
-    <title>Soulac Impérial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0806" />
+
+    <!-- Chemins relatifs : le site est déployé sous un sous-répertoire (base "./"). -->
+    <link rel="icon" type="image/png" href="./images/logo-mark.png" />
+    <link rel="apple-touch-icon" href="./images/logo-mark.png" />
+
+    <title>Soulac Impérial — Cuisine chinoise & japonaise à Soulac-sur-Mer</title>
+    <meta
+      name="description"
+      content="Soulac Impérial, table chinoise et japonaise à Soulac-sur-Mer : sushis, dim sum, woks et grillades, dans une salle aux fresques à l'encre, à cinq minutes de l'océan."
+    />
+
+    <!-- Image LCP de l'accueil : la façade au crépuscule -->
+    <link rel="preload" as="image" href="./images/facade.webp" fetchpriority="high" />
+
+    <!-- Polices : préconnexion pour un affichage rapide -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <meta property="og:type" content="restaurant" />
+    <meta property="og:site_name" content="Soulac Impérial" />
+    <meta property="og:title" content="Soulac Impérial — Cuisine chinoise & japonaise à Soulac-sur-Mer" />
+    <meta
+      property="og:description"
+      content="L'Orient s'invite face à l'Atlantique. Sushis, dim sum, woks et grillades à Soulac-sur-Mer."
+    />
+    <meta property="og:image" content="./images/facade.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "Soulac Impérial",
+        "servesCuisine": ["Chinoise", "Japonaise", "Sushi"],
+        "priceRange": "€€",
+        "email": "contact@soulacimperial.fr",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "1 Rue el Burgo de Osma",
+          "postalCode": "33780",
+          "addressLocality": "Soulac-sur-Mer",
+          "addressRegion": "Gironde",
+          "addressCountry": "FR"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "12:00",
+            "closes": "14:30"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "19:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://instagram.com/soulacimperial",
+          "https://facebook.com/soulacimperial"
+        ],
+        "acceptsReservations": "True"
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

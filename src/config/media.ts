@@ -1,59 +1,172 @@
-// Curated fine-dining + seaside photography (Unsplash). All URLs verified reachable.
-// Always layered behind a dark overlay or on an ink base so the design stays
-// graceful even if a remote image fails to load.
-
-const u = (id: string, w = 1600) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
+/**
+ * Source unique des photographies du site.
+ *
+ * Chaque photo existe en deux tailles : la grande (jusqu'à 1500 px) et une
+ * vignette `-sm` (640 px) générée à la compression. Le composant `<Photo>` sert
+ * la bonne au navigateur via `srcset`, ce qui évite de télécharger 150 ko pour
+ * une case de 260 px.
+ *
+ * Deux règles tenues ici, et nulle part ailleurs :
+ *  1. Une image n'apparaît **jamais deux fois sur une même page**.
+ *  2. Les photos de la vraie salle ne servent que sur **l'accueil et la
+ *     galerie** ; les autres pages s'appuient sur les photographies d'ambiance.
+ */
 
 const BASE = import.meta.env.BASE_URL;
 
+export interface Photo {
+  /** Grande version. */
+  src: string;
+  /** Vignette 640 px, servie aux petites cases via srcset. */
+  sm: string;
+  w: number;
+  h: number;
+}
+
+const p = (path: string, w: number, h: number): Photo => ({
+  src: `${BASE}images/${path}.webp`,
+  sm: `${BASE}images/${path}-sm.webp`,
+  w,
+  h,
+});
+
 export const media = {
-  // Local brand assets (BASE-prefixed so they work at any deploy path)
-  banner: `${BASE}images/banniere.png`,
-  logo: `${BASE}images/logo.png`,
+  // Marque (PNG transparents, pas de variante)
+  logo: `${BASE}images/logo-mark.png`,
+  logoLockup: `${BASE}images/logo-lockup.png`,
 
-  // Ambiance background video (free stock, hotlinkable) + fallback source
-  video: "https://videos.pexels.com/video-files/2169880/2169880-hd_1920_1080_30fps.mp4",
-  videoAlt: "https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4",
+  // Façade au crépuscule
+  facade: p("facade", 1400, 560),
 
-  hero: u("1579871494447-9811cf80d66c", 2000), // omakase / sushi, dark
-  interior: u("1414235077428-338989a2e8c0", 1600), // atmospheric dining room
-  reservation: u("1517248135467-4c7edcad34c4", 1600), // restaurant ambiance
+  // ─── La salle — photographiée sur place ───
+  panoramique: p("salle/panoramique", 1086, 1448),
+  ocre: p("salle/ocre", 1086, 1448),
+  galerie: p("salle/galerie", 1086, 1448),
+  intime: p("salle/intime", 1086, 1448),
+  coinTorii: p("salle/coin-torii", 1086, 1448),
+  miroir: p("salle/miroir", 1200, 900),
+  salleLarge: p("salle/salle-large", 1200, 900),
+  banquette: p("salle/banquette", 1086, 1448),
+  bar: p("salle/bar", 1086, 1448),
+  barrique: p("salle/barrique", 1086, 1448),
+  alcove: p("salle/alcove", 1086, 1448),
+  fresques: p("salle/fresques", 1086, 1448),
+  tables: p("salle/tables", 1086, 1448),
+  nappage: p("salle/nappage", 1086, 1448),
 
-  // "Our story" overlapping pair
-  story: {
-    a: u("1424847651672-bf20a4b0982b", 1200),
-    b: u("1517248135467-4c7edcad34c4", 1100),
-  },
+  // ─── La table ───
+  sushi: p("table/sushi", 1000, 1500),
+  rouleaux: p("table/rouleaux", 1200, 800),
+  dimsum: p("table/dimsum", 1200, 792),
+  vapeur: p("table/vapeur", 1200, 800),
+  wok: p("table/wok", 1200, 681),
+  canard: p("table/canard", 1000, 1500),
+  yakitori: p("table/yakitori", 1000, 1500),
+  planche: p("table/planche", 1200, 800),
+  plateau: p("table/plateau", 1200, 960),
+  ramen: p("table/ramen", 1000, 1500),
+  epices: p("table/epices", 1200, 797),
+  dessert: p("table/dessert", 1000, 1500),
 
-  // Soulac-sur-Mer / Atlantic coast
-  sea: {
-    ocean: u("1507525428034-b723cf961d3e", 2000),
-    beach: u("1505228395891-9a51e7e86bf6", 1600),
-  },
-
-  dishes: {
-    sushi: u("1611143669185-af224c5e3252", 1000),
-    sashimi: u("1535007813616-79dc02ba4021", 1000),
-    ramen: u("1553621042-f6e147245754", 1000),
-    rolls: u("1559339352-11d035aa65de", 1000),
-    table: u("1504674900247-0877df9cc836", 1000),
-    bowl: u("1546069901-ba9599a7e63c", 1000),
-  },
-
-  // Larger pool for the gallery (food + ambiance)
-  gallery: [
-    u("1579871494447-9811cf80d66c", 1100),
-    u("1414235077428-338989a2e8c0", 1100),
-    u("1611143669185-af224c5e3252", 1000),
-    u("1553025934-296397db4010", 1000),
-    u("1564489563601-c53cfc451e93", 1000),
-    u("1607301405390-d831c242f59b", 1000),
-    u("1580822184713-fc5400e7fe10", 1000),
-    u("1626804475297-41608ea09aeb", 1000),
-    u("1574484284002-952d92456975", 1000),
-    u("1551782450-a2132b4ba21d", 1000),
-    u("1544025162-d76694265947", 1000),
-    u("1546833999-b9f581a1996d", 1000),
-  ],
+  // ─── Ambiance — banque d'images libre de droits, usage commercial autorisé ───
+  nigiri: p("univers/nigiri", 1500, 2250),
+  vapeurBambou: p("univers/vapeur-bambou", 1500, 1000),
+  vapeurPanier: p("univers/vapeur-panier", 1500, 1000),
+  flamme: p("univers/flamme", 1500, 1000),
+  sake: p("univers/sake", 1500, 2250),
+  ramenNoir: p("univers/ramen-noir", 1500, 2248),
+  braise: p("univers/braise", 1500, 2099),
+  canards: p("univers/canards", 1500, 2250),
+  mainsChef: p("univers/mains-chef", 1500, 1125),
+  lanternes: p("univers/lanternes", 1500, 1000),
+  sashimi: p("univers/sashimi", 1500, 2250),
+  brochettes: p("univers/brochettes", 1500, 2250),
+  carteSushi: p("univers/carte-sushi", 1500, 1000),
+  carteMaki: p("univers/carte-maki", 1500, 2258),
+  carteDimsum: p("univers/carte-dimsum", 1500, 1212),
+  carteWok: p("univers/carte-wok", 1500, 1000),
+  carteGrill: p("univers/carte-grill", 1500, 1876),
+  carteSoupe: p("univers/carte-soupe", 1500, 2250),
+  dessertDresse: p("univers/dessert-dresse", 1500, 2250),
 } as const;
+
+export type MediaKey = {
+  [K in keyof typeof media]: (typeof media)[K] extends Photo ? K : never;
+}[keyof typeof media];
+
+/** Accès typé à une photo. */
+export const photo = (key: MediaKey): Photo => media[key] as Photo;
+
+/* ────────────────────────────────────────────────────────────────────────────
+   Répartition par page — chaque liste est sans doublon.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/** Accueil — ouverture : façade puis vue large de la salle. */
+export const HERO_SLIDES: MediaKey[] = ["facade", "salleLarge"];
+
+/** Accueil — le duo de « la maison » (bloc éditorial). */
+export const MAISON_DUO: MediaKey[] = ["mainsChef", "coinTorii"];
+
+/** Accueil — bandeau défilant : les 12 photos de plats, une fois chacune. */
+export const SPECIALITES: MediaKey[] = [
+  "sushi",
+  "rouleaux",
+  "dimsum",
+  "vapeur",
+  "wok",
+  "canard",
+  "yakitori",
+  "planche",
+  "plateau",
+  "ramen",
+  "epices",
+  "dessert",
+];
+
+/** Accueil — les quatre signatures, dans l'ordre de `SIGNATURES` (data/menu). */
+export const SIGNATURES_PHOTOS: MediaKey[] = ["sashimi", "canards", "carteSushi", "carteGrill"];
+
+/** Accueil — les six familles de la carte. */
+export const FAMILLES_PHOTOS: MediaKey[] = [
+  "nigiri",
+  "carteMaki",
+  "carteDimsum",
+  "carteWok",
+  "brochettes",
+  "dessertDresse",
+];
+
+/** Accueil — bande « atmosphère » : 4 vues de salle, distinctes du hero. */
+export const MOSAIQUE: MediaKey[] = ["panoramique", "ocre", "miroir", "intime"];
+
+/** Galerie — toutes les vues de salle sauf celle de son propre hero (`bar`). */
+export const GALERIE_SALLE: MediaKey[] = [
+  "panoramique",
+  "galerie",
+  "fresques",
+  "coinTorii",
+  "alcove",
+  "banquette",
+  "barrique",
+  "tables",
+  "nappage",
+  "salleLarge",
+  "ocre",
+  "miroir",
+  "intime",
+];
+
+/** Galerie — les plats. */
+export const GALERIE_TABLE: MediaKey[] = SPECIALITES;
+
+/** La Carte — une photo par catégorie, dans l'ordre de `MENU` (data/menu). */
+export const CARTE_PHOTOS: Record<string, MediaKey> = {
+  entrees: "carteSoupe",
+  dimsum: "vapeurPanier",
+  sushi: "carteSushi",
+  maki: "carteMaki",
+  grillades: "brochettes",
+  wok: "carteWok",
+  desserts: "dessertDresse",
+  boissons: "sake",
+};

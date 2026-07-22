@@ -1,366 +1,442 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowDown } from "lucide-react";
+import HeroSlideshow from "../components/HeroSlideshow";
+import TextMarquee from "../components/TextMarquee";
+import SpinningSeal from "../components/SpinningSeal";
+import SpecialtiesRail from "../components/SpecialtiesRail";
 import Reveal from "../components/Reveal";
-import Marquee from "../components/Marquee";
-import Carousel3D from "../components/Carousel3D";
-import ImageReveal from "../components/ImageReveal";
-import Stats from "../components/Stats";
-import Magnetic from "../components/Magnetic";
-import { media } from "../config/media";
+import Ornament from "../components/Ornament";
+import SectionHeading from "../components/SectionHeading";
+import ParallaxBg from "../components/ParallaxBg";
+import ContactDetails from "../components/ContactDetails";
+import ReserveButton from "../components/ReserveButton";
+import InstagramIcon from "../components/InstagramIcon";
+import FacebookIcon from "../components/FacebookIcon";
+import Photo from "../components/Photo";
 import { siteConfig } from "../config/siteConfig";
-import { MENU_ITEMS } from "../data/menu";
-
-interface Testimonial {
-  quote: string;
-  author: string;
-  role: string;
-}
+import { MOSAIQUE, MAISON_DUO, SIGNATURES_PHOTOS, FAMILLES_PHOTOS } from "../config/media";
+import { SIGNATURES, findItem } from "../data/menu";
 
 const Home = () => {
   const { t, i18n } = useTranslation();
-  const [entered, setEntered] = useState(false);
+  const lang = i18n.language.startsWith("en") ? "en" : "fr";
 
-  const SIGNATURE_IDS = ["s3", "w2", "m3", "y2", "y3", "s2"];
-  const signatures = SIGNATURE_IDS.map((id) => MENU_ITEMS.find((m) => m.id === id)).filter(
-    (m): m is (typeof MENU_ITEMS)[number] => Boolean(m)
-  );
-  const formatPrice = (price: number) =>
-    new Intl.NumberFormat(i18n.language, { style: "currency", currency: "EUR" }).format(price);
+  const familles = [1, 2, 3, 4, 5, 6].map((n, i) => ({
+    photo: FAMILLES_PHOTOS[i],
+    title: t(`home.universe${n}Title`),
+    text: t(`home.universe${n}Text`),
+  }));
 
-  useEffect(() => {
-    const id = window.setTimeout(() => setEntered(true), 2050);
-    return () => window.clearTimeout(id);
-  }, []);
-
-  const heroWords = t("home.heroTitle").split(" ");
-  const marqueeItems = t("home.marqueeItems", { returnObjects: true }) as unknown as string[];
-  const testimonials = t("home.testimonials", { returnObjects: true }) as unknown as Testimonial[];
-  const stats = t("home.stats", { returnObjects: true }) as unknown as {
-    number: number;
-    suffix: string;
-    label: string;
-  }[];
-
-  const specialties = [
-    { title: t("home.specialty1Title"), text: t("home.specialty1Text"), img: media.dishes.sushi },
-    { title: t("home.specialty2Title"), text: t("home.specialty2Text"), img: media.dishes.table },
-    { title: t("home.specialty3Title"), text: t("home.specialty3Text"), img: media.dishes.ramen },
-    { title: t("home.specialty4Title"), text: t("home.specialty4Text"), img: media.dishes.rolls },
-    { title: t("home.specialty5Title"), text: t("home.specialty5Text"), img: media.dishes.sashimi },
-    { title: t("home.specialty6Title"), text: t("home.specialty6Text"), img: media.dishes.bowl },
+  const stats = [
+    { value: "2", label: t("home.stat1") },
+    { value: "100%", label: t("home.stat2") },
+    { value: "6", label: t("home.stat3") },
+    { value: "5 min", label: t("home.stat4") },
   ];
 
-  return (
-    <div>
-      {/* ===== Hero ===== */}
-      <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-imperial-ink">
-        <div
-          className={`absolute inset-0 transition-transform duration-[2400ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-            entered ? "scale-100" : "scale-[1.12]"
-          }`}
-        >
-          <img src={media.banner} alt="Soulac Impérial — façade au crépuscule" className="img-cover kenburns" />
-          <div className="absolute inset-0 bg-imperial-gradient" />
-        </div>
+  const points = [1, 2, 3].map((n) => ({
+    title: t(`home.point${n}Title`),
+    text: t(`home.point${n}Text`),
+  }));
 
-        {/* soft veil that fades away on entry */}
+  const signatures = SIGNATURES.map(findItem)
+    .filter((d) => d !== undefined)
+    .map((dish, i) => ({ dish, photo: SIGNATURES_PHOTOS[i] }));
+
+  const prix = (p: number) =>
+    new Intl.NumberFormat(lang === "en" ? "en-GB" : "fr-FR", {
+      style: "currency",
+      currency: "EUR",
+    }).format(p);
+
+  const socials = [
+    { url: siteConfig.social.instagram, label: "Instagram", Icon: InstagramIcon },
+    { url: siteConfig.social.facebook, label: "Facebook", Icon: FacebookIcon },
+  ].filter((s) => s.url);
+
+  return (
+    <div className="bg-luxury-black">
+      {/* ═══════════════════════ OUVERTURE ═══════════════════════ */}
+      <section className="relative flex min-h-[92svh] items-center justify-center overflow-hidden bg-luxury-black grain py-28 md:min-h-screen">
+        <HeroSlideshow />
+        <div className="hero-overlay pointer-events-none absolute inset-0" />
+        <div className="pointer-events-none absolute inset-0 bg-luxury-black/40" />
+        <div className="frame-inset" />
         <div
-          className={`absolute inset-0 z-[6] bg-imperial-ink transition-opacity duration-[1400ms] ease-out ${
-            entered ? "opacity-0" : "opacity-100"
-          }`}
+          className="gold-halo animate-fade-up pointer-events-none absolute inset-0"
+          style={{ animationDelay: "1.3s" }}
         />
 
-        {/* vertical side texts */}
-        <span
-          className={`vertical-text absolute left-6 top-1/2 -translate-y-1/2 hidden lg:block eyebrow text-imperial-cream/50 transition-opacity duration-1000 ${
-            entered ? "opacity-100" : "opacity-0"
-          }`}
-          style={{ transitionDelay: "900ms" }}
-        >
-          {siteConfig.address.city}
+        <span className="absolute left-8 top-1/2 hidden -translate-y-1/2 rotate-180 font-accent text-xs uppercase tracking-luxury-wide text-luxury-champagne/60 [writing-mode:vertical-rl] lg:block">
+          {t("home.heroSide1")}
         </span>
-        <span
-          className={`vertical-text absolute right-6 top-1/2 -translate-y-1/2 hidden lg:block eyebrow text-imperial-cream/50 transition-opacity duration-1000 ${
-            entered ? "opacity-100" : "opacity-0"
-          }`}
-          style={{ transitionDelay: "900ms" }}
-        >
-          {t("home.heroSubtitle")}
+        <span className="absolute right-8 top-1/2 hidden -translate-y-1/2 font-accent text-xs uppercase tracking-luxury-wide text-luxury-champagne/60 [writing-mode:vertical-rl] lg:block">
+          {siteConfig.address.city.replace(/^\d+\s*/, "")} — France
         </span>
 
-        <div className={`relative z-10 text-center px-6 ${entered ? "title-reveal" : ""}`}>
+        <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
           <p
-            className={`eyebrow text-imperial-gold mb-6 transition-all duration-1000 ${
-              entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-            style={{ transitionDelay: "250ms" }}
+            className="animate-fade-up mb-6 font-accent text-xs uppercase tracking-luxury-wide text-luxury-gold md:text-sm"
+            style={{ animationDelay: "1.2s" }}
           >
             {t("home.heroSubtitle")}
           </p>
-          <h1 className="font-display text-[3.4rem] leading-[0.98] sm:text-display-lg md:text-display-xl lg:text-[7.5rem] neon-gold animate-neon-flicker font-medium">
-            {heroWords.map((w, i) => (
-              <span key={i} className="title-word">
-                <span style={{ transitionDelay: `${300 + i * 140}ms` }}>{w}</span>
-                {i < heroWords.length - 1 ? " " : ""}
-              </span>
-            ))}
+
+          <h1
+            className="animate-letter-in text-glow font-display font-semibold leading-[0.95]"
+            style={{ animationDelay: "1.35s" }}
+          >
+            <span className="text-gold-shimmer text-[clamp(2.6rem,9vw,6.5rem)]">
+              {t("home.heroTitle")}
+            </span>
           </h1>
-          <div
-            className={`hairline neon-rule mx-auto mt-8 transition-all duration-[1100ms] ease-out ${
-              entered ? "w-44 opacity-100" : "w-0 opacity-0"
-            }`}
-            style={{ transitionDelay: "700ms" }}
-          />
           <p
-            className={`font-display italic text-2xl md:text-4xl text-imperial-gold-light mt-7 transition-all duration-1000 ${
-              entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-            style={{ transitionDelay: "850ms" }}
+            className="animate-fade-up mt-4 font-display text-xl italic text-luxury-cream md:text-2xl lg:text-3xl"
+            style={{ animationDelay: "1.5s" }}
           >
             {t("home.heroTagline")}
           </p>
+
           <div
-            className={`flex flex-col sm:flex-row items-center justify-center gap-5 mt-12 transition-all duration-1000 ${
-              entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-            }`}
-            style={{ transitionDelay: "1050ms" }}
+            className="animate-fade-up mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
+            style={{ animationDelay: "1.6s" }}
           >
-            <Magnetic>
-              <Link
-                to="/reservation"
-                className="btn-lux shadow-neon animate-neon-pulse bg-imperial-gold text-imperial-ink hover:text-imperial-ink eyebrow px-10 py-4 inline-block"
-              >
-                {t("home.heroCta1")}
-              </Link>
-            </Magnetic>
-            <Magnetic>
-              <Link
-                to="/carte"
-                className="btn-lux border border-imperial-cream/50 text-imperial-cream hover:text-imperial-ink eyebrow px-10 py-4 inline-block"
-              >
-                {t("common.nav.clickcollect")}
-              </Link>
-            </Magnetic>
+            <Link
+              to="/la-carte"
+              className="btn-shine group inline-flex w-full items-center justify-center gap-2 rounded-full border border-luxury-gold py-3.5 font-accent text-xs uppercase tracking-luxury text-luxury-gold transition-colors hover:bg-luxury-gold hover:text-luxury-black sm:w-56 sm:py-4 sm:text-sm"
+            >
+              {t("home.heroCtaMenu")}
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+            <ReserveButton className="btn-shine inline-flex w-full items-center justify-center gap-2 rounded-full bg-luxury-gold py-3.5 font-accent text-xs uppercase tracking-luxury text-luxury-black transition-colors hover:bg-luxury-gold-bright sm:w-56 sm:py-4 sm:text-sm" />
           </div>
+
+          {socials.length > 0 && (
+            <div
+              className="animate-fade-up mt-8 flex items-center justify-center gap-3"
+              style={{ animationDelay: "1.8s" }}
+            >
+              {socials.map(({ url, label, Icon }) => (
+                <a
+                  key={label}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-luxury-gold/40 bg-luxury-black/25 text-luxury-cream/90 backdrop-blur-sm transition-colors hover:border-luxury-gold hover:text-luxury-gold"
+                >
+                  <Icon size={18} />
+                </a>
+              ))}
+            </div>
+          )}
         </div>
+
+        <span
+          className="animate-fade-up absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 font-accent text-[0.6rem] uppercase tracking-luxury-wide text-luxury-champagne/60"
+          style={{ animationDelay: "2.1s" }}
+          aria-hidden="true"
+        >
+          {t("home.scrollCue")}
+          <ArrowDown size={14} className="animate-float text-luxury-gold" />
+        </span>
 
         <div
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 text-imperial-gold/70 animate-drift z-10 transition-opacity duration-1000 ${
-            entered ? "opacity-100" : "opacity-0"
-          }`}
-          style={{ transitionDelay: "1300ms" }}
+          className="animate-fade-up absolute bottom-8 right-8 z-10 hidden h-24 w-24 lg:block xl:h-28 xl:w-28"
+          style={{ animationDelay: "2s" }}
         >
-          <ArrowDown size={22} strokeWidth={1.5} />
+          <SpinningSeal text={t("common.sealText")} />
         </div>
       </section>
 
-      {/* ===== Marquee ===== */}
-      <div className="bg-imperial-ink text-imperial-gold py-5 border-y border-imperial-gold/15">
-        <Marquee items={marqueeItems} />
-      </div>
-
-      {/* ===== Specialties (Nos univers) ===== */}
-      <section className="py-14 md:py-24 bg-imperial-ink-light">
-        <div className="section-padding">
-          <Reveal className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
-            <p className="eyebrow text-imperial-gold mb-5">{t("home.specialtiesTitle")}</p>
-            <h2 className="text-display-md md:text-display-lg font-display text-imperial-cream mb-6">
-              {t("home.specialtiesSubtitle")}
-            </h2>
-            <div className="hairline w-24 mx-auto" />
-          </Reveal>
-        </div>
-        <div className="group overflow-hidden">
-          <div
-            className="flex gap-4 md:gap-6 w-max px-3 group-hover:[animation-play-state:paused]"
-            style={{ animation: "wave-x 55s linear infinite" }}
-          >
-            {[...specialties, ...specialties].map((s, i) => (
-              <article key={i} className="group/card shrink-0 w-[78vw] sm:w-[42vw] lg:w-[25vw]">
-                <div className="relative aspect-[4/5] overflow-hidden bg-imperial-ink">
-                  <img
-                    src={s.img}
-                    alt={s.title}
-                    loading="lazy"
-                    className="img-cover transition-transform duration-[1200ms] ease-out group-hover/card:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-imperial-ink/70 via-transparent to-transparent" />
-                  <span className="absolute top-4 left-4 font-display italic text-imperial-gold text-xl">
-                    {`0${(i % specialties.length) + 1}`}
-                  </span>
-                  <div className="absolute inset-x-0 bottom-0 p-5">
-                    <h3 className="font-display text-2xl text-imperial-cream mb-1">{s.title}</h3>
-                    <p className="font-body font-light text-sm text-imperial-cream/75 leading-relaxed">{s.text}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== Stats ===== */}
-      <Stats items={stats} />
-
-      {/* ===== Menu / Pricing preview ===== */}
-      <section className="py-14 md:py-24 bg-imperial-ink overflow-hidden">
-        <div className="section-padding grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <ImageReveal
-            src={media.dishes.table}
-            className="aspect-[4/5] order-2 lg:order-1"
-            panel="gold"
-          >
-            <div className="absolute inset-3 z-10 border border-imperial-cream/40 pointer-events-none" />
-          </ImageReveal>
-
-          <div className="order-1 lg:order-2">
-            <Reveal>
-              <p className="eyebrow text-imperial-gold mb-5">{t("home.menuPreviewEyebrow")}</p>
-              <h2 className="text-display-md md:text-display-lg font-display text-imperial-cream mb-4">
-                {t("home.menuPreviewTitle")}
-              </h2>
-              <p className="font-body font-light text-imperial-cream/70 leading-relaxed mb-10 max-w-md">
-                {t("home.menuPreviewSubtitle")}
+      {/* ═══════════════════════ BANDEAU CHIFFRES ═══════════════════════ */}
+      <section className="border-y border-luxury-gold/20 bg-luxury-ink">
+        <div className="section-padding mx-auto grid max-w-6xl grid-cols-2 divide-luxury-gold/15 py-8 sm:grid-cols-4 sm:divide-x md:py-10">
+          {stats.map((s) => (
+            <div key={s.label} className="px-4 py-3 text-center sm:py-0">
+              <p className="font-display text-3xl leading-none text-gold-foil md:text-4xl">
+                {s.value}
               </p>
-            </Reveal>
+              <p className="mt-2 font-accent text-[0.6rem] uppercase tracking-luxury text-luxury-champagne/70 md:text-xs">
+                {s.label}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-            <ul className="space-y-6">
-              {signatures.map((item, i) => (
-                <Reveal as="li" key={item.id} delay={i * 80}>
-                  <div className="flex items-baseline gap-3">
-                    <h3 className="font-display text-xl md:text-2xl text-imperial-cream whitespace-nowrap">
-                      {t(`menu.items.${item.id}.name`)}
-                    </h3>
-                    <span className="flex-1 border-b border-dotted border-imperial-gold/50 translate-y-[-3px]" />
-                    <span className="font-display text-xl md:text-2xl text-imperial-gold whitespace-nowrap">
-                      {formatPrice(item.price)}
-                    </span>
-                  </div>
-                  <p className="font-body font-light text-sm text-imperial-cream/70/90 leading-relaxed mt-1 max-w-md">
-                    {t(`menu.items.${item.id}.desc`)}
-                  </p>
-                </Reveal>
+      {/* ═══════════════════════ LA MAISON (éditorial) ═══════════════════════ */}
+      <section className="relative overflow-hidden py-10 grain md:py-20">
+        <div className="section-padding relative z-10 mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-14">
+          {/* Deux photos décalées : la composition remplit la colonne */}
+          <Reveal className="relative">
+            <div className="relative overflow-hidden rounded-lg border border-luxury-gold/20">
+              <Photo
+                name={MAISON_DUO[0]}
+                sizes="(min-width: 1024px) 32rem, 100vw"
+                className="h-52 w-full object-cover md:h-[22rem]"
+              />
+            </div>
+            <div className="relative -mt-14 ml-auto w-2/3 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:-mt-20 md:w-3/5">
+              <Photo
+                name={MAISON_DUO[1]}
+                sizes="(min-width: 1024px) 18rem, 60vw"
+                className="h-28 w-full object-cover md:h-56"
+              />
+            </div>
+            <span
+              className="pointer-events-none absolute -left-3 -top-3 h-16 w-16 border-l border-t border-luxury-gold/50"
+              aria-hidden="true"
+            />
+          </Reveal>
+
+          <Reveal delay={140} className="text-center lg:text-left">
+            <p className="font-accent text-xs uppercase tracking-luxury-wide text-luxury-gold">
+              {t("home.maisonEyebrow")}
+            </p>
+            <h2 className="mt-4 font-display text-display-md text-gold-foil pb-1">
+              {t("home.maisonTitle")}
+            </h2>
+            <Ornament align="center" className="mt-5 lg:hidden" />
+            <p className="mt-6 font-body text-lg leading-relaxed text-luxury-champagne/80">
+              {t("home.maisonText1")}
+            </p>
+            <p className="mt-4 hidden font-body leading-relaxed text-luxury-champagne/65 sm:block">
+              {t("home.maisonText2")}
+            </p>
+
+            <ul className="mt-6 space-y-3 text-left md:mt-8 md:space-y-4">
+              {points.map((p, i) => (
+                <li key={p.title} className="flex gap-4">
+                  <span className="mt-1 font-display text-lg text-luxury-gold/50">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span>
+                    <span className="block font-display text-lg text-luxury-cream">{p.title}</span>
+                    <span className="block font-body text-luxury-champagne/60">{p.text}</span>
+                  </span>
+                </li>
               ))}
             </ul>
 
-            <Reveal delay={120}>
-              <Link
-                to="/carte"
-                className="lux-underline inline-flex items-center gap-2 mt-10 eyebrow text-imperial-cream"
-              >
-                {t("home.menuPreviewCta")} <ArrowRight size={16} strokeWidth={1.5} />
-              </Link>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== Ambiance band (full-bleed video) ===== */}
-      <section className="relative h-[60vh] min-h-[380px] overflow-hidden bg-imperial-ink">
-        <video
-          className="absolute inset-0 img-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={media.interior}
-        >
-          <source src={media.video} type="video/mp4" />
-          <source src={media.videoAlt} type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-imperial-ink/45" />
-        <div className="absolute inset-0 flex items-end">
-          <div className="section-padding pb-12 md:pb-16 w-full">
-            <Reveal>
-              <p className="eyebrow text-imperial-gold mb-3">{siteConfig.shortName}</p>
-              <p className="font-display italic text-2xl md:text-4xl lg:text-5xl text-imperial-cream max-w-2xl leading-snug">
-                {t("home.heroTagline")}
-              </p>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ===== Gallery (3D coverflow) ===== */}
-      <section className="py-14 md:py-24 bg-imperial-ink text-imperial-cream overflow-hidden">
-        <div className="section-padding">
-          <Reveal className="text-center max-w-2xl mx-auto mb-6">
-            <p className="eyebrow text-imperial-gold mb-5">{t("home.galleryEyebrow")}</p>
-            <h2 className="text-display-md md:text-display-lg font-display text-imperial-cream mb-6">
-              {t("home.galleryTitle")}
-            </h2>
-            <p className="font-body font-light text-imperial-cream/70 leading-relaxed">{t("home.gallerySubtitle")}</p>
-          </Reveal>
-        </div>
-        <Carousel3D images={[...media.gallery]} />
-      </section>
-
-      {/* ===== Testimonials ===== */}
-      <section className="relative py-14 md:py-24 bg-imperial-ink text-imperial-cream overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.13]">
-          <img src={media.dishes.sashimi} alt="" className="img-cover" />
-          <div className="absolute inset-0 bg-imperial-ink/60" />
-        </div>
-        <div className="section-padding relative">
-          <Reveal className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
-            <p className="eyebrow text-imperial-gold mb-5">{t("home.testimonialsEyebrow")}</p>
-            <h2 className="text-display-md md:text-display-lg font-display text-imperial-cream">
-              {t("home.testimonialsTitle")}
-            </h2>
-          </Reveal>
-        </div>
-        <div className="group relative overflow-hidden">
-          <div
-            className="flex gap-5 md:gap-6 w-max px-3 group-hover:[animation-play-state:paused]"
-            style={{ animation: "wave-x 40s linear infinite" }}
-          >
-            {[...testimonials, ...testimonials].map((item, i) => (
-              <article
-                key={i}
-                className="shrink-0 w-[82vw] sm:w-[48vw] lg:w-[31vw] border border-imperial-gold/20 bg-imperial-ink-light/40 p-8 flex flex-col"
-              >
-                <span className="font-display text-6xl text-imperial-gold/40 leading-none">&ldquo;</span>
-                <p className="font-display italic text-xl lg:text-2xl text-imperial-cream/90 leading-relaxed -mt-4 mb-6 flex-1">
-                  {item.quote}
-                </p>
-                <div className="hairline w-10 mb-4" />
-                <p className="eyebrow text-imperial-gold">{item.author}</p>
-                <p className="font-body font-light text-sm text-imperial-cream/50 mt-1">{item.role}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== Reservation CTA ===== */}
-      <section className="relative py-14 md:py-24 overflow-hidden flex items-center justify-center text-center">
-        <div className="absolute inset-0">
-          <img src={media.reservation} alt="" className="img-cover kenburns" />
-          <div className="absolute inset-0 overlay-ink" />
-        </div>
-        <div className="section-padding relative z-10 max-w-2xl mx-auto">
-          <Reveal>
-            <p className="eyebrow text-imperial-gold mb-5">{siteConfig.name}</p>
-            <h2 className="text-display-lg md:text-display-xl font-display text-imperial-cream mb-6">
-              {t("home.ctaTitle")}
-            </h2>
-            <p className="text-lg text-imperial-cream/80 leading-relaxed mb-10 font-body font-light">
-              {t("home.ctaText")}
-            </p>
             <Link
-              to="/reservation"
-              className="btn-lux bg-imperial-gold text-imperial-ink hover:text-imperial-ink eyebrow px-12 py-4 inline-block"
+              to="/la-maison"
+              className="group mt-8 inline-flex items-center gap-2 font-accent text-sm uppercase tracking-luxury text-luxury-gold transition-colors hover:text-luxury-gold-bright"
             >
-              {t("home.ctaButton")}
+              {t("home.storyCta")}
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
             </Link>
           </Reveal>
         </div>
       </section>
 
+      {/* ═══════════════════════ SPÉCIALITÉS (bandeau) ═══════════════════════ */}
+      <section className="relative overflow-hidden border-y border-luxury-gold/15 bg-luxury-ink py-10 grain md:py-16">
+        <div className="section-padding relative z-10">
+          <Reveal className="mx-auto mb-6 max-w-2xl md:mb-8">
+            <SectionHeading
+              tone="dark"
+              eyebrow={t("home.specialtiesEyebrow")}
+              title={t("home.specialtiesTitle")}
+              subtitle={t("home.specialtiesSubtitle")}
+            />
+          </Reveal>
+        </div>
+        <Reveal>
+          <SpecialtiesRail />
+        </Reveal>
+        <div className="mt-8 text-center">
+          <TextMarquee items={familles.map((f) => f.title)} speed={40} />
+        </div>
+      </section>
+
+      {/* ═══════════════════════ SIGNATURES ═══════════════════════ */}
+      <section className="relative overflow-hidden py-10 grain emerald-wash md:py-20">
+        <ParallaxBg name="braise" className="opacity-[0.14]" />
+        <div className="section-padding relative z-10">
+          <Reveal className="mx-auto mb-7 max-w-2xl md:mb-10">
+            <SectionHeading
+              tone="dark"
+              eyebrow={t("home.signaturesEyebrow")}
+              title={t("home.signaturesTitle")}
+              subtitle={t("home.signaturesLead")}
+            />
+          </Reveal>
+
+          <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+            {signatures.map(({ dish, photo }, i) => (
+              <Reveal
+                key={dish.id}
+                delay={(i % 4) * 90}
+                className="group flex flex-col overflow-hidden rounded-xl border border-luxury-gold/20 bg-luxury-ink/60 transition-colors duration-500 hover:border-luxury-gold/60"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Photo
+                    name={photo}
+                    alt={dish.name[lang] ?? dish.name.fr}
+                    sizes="(min-width: 1024px) 20rem, (min-width: 640px) 45vw, 90vw"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/80 to-transparent" />
+                  <span className="absolute left-4 top-4 font-display text-2xl text-luxury-gold/70">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col p-4 text-center sm:p-5">
+                  <h3 className="font-display text-base leading-tight text-luxury-cream sm:text-lg">
+                    {dish.name[lang] ?? dish.name.fr}
+                  </h3>
+                  <p className="mt-2 hidden flex-1 font-body text-sm leading-relaxed text-luxury-champagne/65 sm:block">
+                    {dish.desc[lang] ?? dish.desc.fr}
+                  </p>
+                  <span className="num-elegant mt-3 font-display text-base text-luxury-gold-bright sm:mt-4 sm:text-lg">
+                    {prix(dish.price)}
+                  </span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════ SIX FAMILLES ═══════════════════════ */}
+      <section className="relative overflow-hidden bg-luxury-ink py-10 grain md:py-20">
+        <div className="section-padding relative z-10">
+          <Reveal className="mx-auto mb-7 max-w-2xl md:mb-10">
+            <SectionHeading
+              tone="dark"
+              eyebrow={t("home.famillesEyebrow")}
+              title={t("home.famillesTitle")}
+              subtitle={t("home.famillesSubtitle")}
+            />
+          </Reveal>
+
+          <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+            {familles.map((f, i) => (
+              <Reveal key={f.title} delay={(i % 3) * 90}>
+                <Link
+                  to="/la-carte"
+                  className="group relative block aspect-square overflow-hidden rounded-xl border border-luxury-gold/20 transition-colors duration-500 hover:border-luxury-gold/60 sm:aspect-[16/10]"
+                >
+                  <Photo
+                    name={f.photo}
+                    alt={f.title}
+                    sizes="(min-width: 1024px) 24rem, (min-width: 640px) 45vw, 92vw"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.3s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-luxury-black/45 to-luxury-black/10" />
+                  <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5">
+                    <span className="mb-2 block h-px w-8 origin-left scale-x-50 bg-luxury-gold transition-transform duration-500 group-hover:scale-x-100" />
+                    <h3 className="font-display text-base text-luxury-cream sm:text-xl">{f.title}</h3>
+                    <p className="mt-1 hidden font-body text-sm text-luxury-champagne/70 sm:block">
+                      {f.text}
+                    </p>
+                  </div>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal className="mt-8 text-center md:mt-10">
+            <Link
+              to="/la-carte"
+              className="btn-shine group inline-flex items-center gap-2 rounded-full bg-luxury-gold px-9 py-4 font-accent text-sm uppercase tracking-luxury text-luxury-black transition-colors hover:bg-luxury-gold-bright"
+            >
+              {t("home.specialtiesCta")}
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═══════════════════════ L'ATMOSPHÈRE ═══════════════════════ */}
+      <section className="relative overflow-hidden py-10 grain emerald-wash md:py-20">
+        <div className="section-padding relative z-10">
+          <Reveal className="mx-auto mb-7 max-w-2xl md:mb-10">
+            <SectionHeading
+              tone="dark"
+              eyebrow={t("home.ambianceEyebrow")}
+              title={t("home.ambianceTitle")}
+              subtitle={t("home.ambianceLead")}
+            />
+          </Reveal>
+
+          <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+            {MOSAIQUE.map((key, i) => (
+              <Reveal
+                key={key}
+                delay={(i % 4) * 80}
+                className="group relative aspect-square overflow-hidden rounded-lg border border-luxury-gold/15 md:aspect-[3/4]"
+              >
+                <Photo
+                  name={key}
+                  alt={t("gallery.roomAlt")}
+                  sizes="(min-width: 768px) 22vw, 45vw"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.3s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
+                />
+                <span className="pointer-events-none absolute inset-3 border border-luxury-gold/0 transition-colors duration-500 group-hover:border-luxury-gold/30" />
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal className="mt-8 text-center md:mt-10">
+            <Link
+              to="/galerie"
+              className="group inline-flex items-center gap-2 rounded-full border border-luxury-gold px-8 py-4 font-accent text-sm uppercase tracking-luxury text-luxury-gold transition-colors hover:bg-luxury-gold hover:text-luxury-black"
+            >
+              {t("home.ambianceCta")}
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═══════════════════════ NOUS TROUVER ═══════════════════════ */}
+      <section className="relative overflow-hidden bg-luxury-ink py-10 grain md:py-20">
+        <div className="section-padding relative z-10">
+          <Reveal className="mx-auto mb-7 max-w-2xl md:mb-10">
+            <SectionHeading
+              tone="dark"
+              eyebrow={t("common.findUsEyebrow")}
+              title={t("common.findUsTitle")}
+            />
+          </Reveal>
+          <ContactDetails
+            mapDesktopOnly
+            actions={
+              <Reveal delay={320}>
+                <Link
+                  to="/contact"
+                  className="btn-shine block rounded-full bg-luxury-gold px-6 py-4 text-center font-accent text-sm uppercase tracking-luxury text-luxury-black transition-colors hover:bg-luxury-gold-bright"
+                >
+                  {t("common.contactUs")}
+                </Link>
+              </Reveal>
+            }
+          />
+        </div>
+      </section>
+
+      {/* ═══════════════════════ APPEL FINAL ═══════════════════════ */}
+      <section className="relative overflow-hidden py-14 text-center grain md:py-24">
+        <ParallaxBg name="lanternes" className="opacity-40" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-luxury-black via-luxury-black/80 to-luxury-black/85" />
+        <Reveal className="section-padding relative z-10 mx-auto max-w-2xl">
+          <Ornament className="mb-7" />
+          <h2 className="mb-5 pb-1 font-display text-display-md leading-tight text-gold-foil md:text-display-lg">
+            <span className="block">{t("home.ctaTitleA")}</span>
+            <span className="block">{t("home.ctaTitleB")}</span>
+          </h2>
+          <p className="mb-9 font-body text-lg leading-relaxed text-luxury-champagne/75">
+            {t("home.ctaText")}
+          </p>
+          <ReserveButton
+            label={t("home.ctaButton")}
+            className="btn-shine inline-block rounded-full bg-luxury-gold px-12 py-4 font-accent text-sm uppercase tracking-luxury text-luxury-black transition-colors hover:bg-luxury-gold-bright"
+          />
+        </Reveal>
+      </section>
     </div>
   );
 };

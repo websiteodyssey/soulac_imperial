@@ -1,52 +1,44 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-interface RevealProps {
+type RevealProps = {
   children: ReactNode;
   className?: string;
-  /** Delay in ms before the reveal transition starts once in view. */
+  /** Delay in ms before the reveal transition starts (for staggering). */
   delay?: number;
-  as?: "div" | "section" | "li" | "article";
-  /** "fade" slides up; "img" wipes a curtain reveal (for images). */
-  variant?: "fade" | "img";
-}
+  /** Render as a different element (defaults to a div). */
+  as?: "div" | "section";
+  /** Identifiant DOM, utile pour aria-controls. */
+  id?: string;
+};
 
-/**
- * Fades + slides its children into view the first time they enter the viewport.
- * Uses IntersectionObserver; falls back to visible if unsupported.
- */
-const Reveal = ({ children, className = "", delay = 0, as = "div", variant = "fade" }: RevealProps) => {
-  const ref = useRef<HTMLElement | null>(null);
+const Reveal = ({ children, className = "", delay = 0, as: Tag = "div", id }: RevealProps) => {
+  const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    if (typeof IntersectionObserver === "undefined") {
-      setVisible(true);
-      return;
-    }
+    const el = ref.current;
+    if (!el) return;
+
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
       },
       { threshold: 0.15, rootMargin: "0px 0px -10% 0px" }
     );
-    observer.observe(node);
+
+    observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
-  const Tag = as as "div";
-  const base = variant === "img" ? "reveal-img" : "reveal";
   return (
     <Tag
-      ref={ref as React.Ref<HTMLDivElement>}
-      className={`${base} ${visible ? "is-visible" : ""} ${className}`}
-      style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
+      id={id}
+      ref={ref}
+      className={`reveal ${visible ? "is-visible" : ""} ${className}`.trim()}
+      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}
     </Tag>

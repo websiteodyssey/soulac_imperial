@@ -1,97 +1,160 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { MapPin, Mail, Clock } from "lucide-react";
-import { InstagramIcon, FacebookIcon } from "./SocialIcons";
-import WaveDivider from "./WaveDivider";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import InstagramIcon from "./InstagramIcon";
+import FacebookIcon from "./FacebookIcon";
 import { siteConfig } from "../config/siteConfig";
 import { media } from "../config/media";
 
 const Footer = () => {
   const { t } = useTranslation();
+  const { instagram, facebook } = siteConfig.social;
+
+  const links = [
+    { to: "/", label: t("common.nav.home") },
+    { to: "/la-maison", label: t("common.nav.about") },
+    { to: "/la-carte", label: t("common.nav.menu") },
+    { to: "/galerie", label: t("common.nav.gallery") },
+    { to: "/contact", label: t("common.nav.contact") },
+  ];
 
   return (
-    <footer className="relative bg-gradient-to-b from-[#0b2e38] via-imperial-ink to-imperial-ink text-imperial-cream">
-      <WaveDivider color="#0b2e38" />
-      <div className="section-padding pt-12 pb-10 grid grid-cols-2 md:grid-cols-12 gap-x-8 gap-y-10">
-        {/* Brand */}
-        <div className="col-span-2 md:col-span-4">
-          <img
-            src={media.logo}
-            alt={siteConfig.name}
-            className="w-28 mb-4"
-            style={{ mixBlendMode: "screen" }}
-          />
-          <p className="font-body text-sm text-imperial-cream/65 leading-relaxed max-w-xs">
-            {t("footer.tagline")}
-          </p>
-          <div className="flex items-center gap-4 mt-5">
-            <a href={siteConfig.social.instagram} target="_blank" rel="noopener noreferrer" className="text-imperial-cream/80 hover:text-imperial-gold transition-colors">
-              <InstagramIcon size={18} />
-            </a>
-            <a href={siteConfig.social.facebook} target="_blank" rel="noopener noreferrer" className="text-imperial-cream/80 hover:text-imperial-gold transition-colors">
-              <FacebookIcon size={18} />
-            </a>
+    <footer className="bg-luxury-black text-luxury-cream border-t border-luxury-gold/15">
+      <div className="section-padding grid grid-cols-2 gap-x-6 gap-y-8 py-10 sm:gap-x-8 md:py-16 lg:grid-cols-4">
+        <div className="col-span-2 lg:col-span-1">
+          <div className="mb-4 flex items-center gap-3">
+            <img
+              src={media.logo}
+              alt=""
+              width={48}
+              height={48}
+              className="h-12 w-12 object-contain shrink-0"
+            />
+            <span className="font-display text-2xl text-luxury-cream">{siteConfig.name}</span>
           </div>
+          <p className="font-body text-luxury-champagne/80 leading-relaxed">{t("footer.tagline")}</p>
+          {(instagram || facebook) && (
+            <div className="flex items-center gap-3 mt-5">
+              {instagram && (
+                <a
+                  href={instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-luxury-gold/30 text-luxury-cream/80 hover:text-luxury-gold hover:border-luxury-gold/60 transition-colors"
+                >
+                  <InstagramIcon size={20} />
+                </a>
+              )}
+              {facebook && (
+                <a
+                  href={facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-luxury-gold/30 text-luxury-cream/80 hover:text-luxury-gold hover:border-luxury-gold/60 transition-colors"
+                >
+                  <FacebookIcon size={19} />
+                </a>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Navigation */}
-        <div className="md:col-span-3">
-          <h3 className="eyebrow text-imperial-gold mb-5">{t("footer.quickLinks")}</h3>
-          <ul className="space-y-2.5 font-body text-sm text-imperial-cream/85">
-            <li><Link to="/" className="hover:text-imperial-gold transition-colors">{t("common.nav.home")}</Link></li>
-            <li><Link to="/a-propos" className="hover:text-imperial-gold transition-colors">{t("common.nav.about")}</Link></li>
-            <li><Link to="/carte" className="hover:text-imperial-gold transition-colors">{t("common.nav.menu")}</Link></li>
-            <li><Link to="/carte" className="hover:text-imperial-gold transition-colors">{t("common.nav.clickcollect")}</Link></li>
-            <li><Link to="/reservation" className="hover:text-imperial-gold transition-colors">{t("common.nav.reservation")}</Link></li>
-            <li><Link to="/contact" className="hover:text-imperial-gold transition-colors">{t("common.nav.contact")}</Link></li>
+        <div>
+          <h3 className="font-display text-lg text-luxury-gold uppercase tracking-luxury mb-4">
+            {t("footer.quickLinks")}
+          </h3>
+          <ul className="space-y-3 font-body text-luxury-cream/90">
+            {links.map((l) => (
+              <li key={l.to}>
+                <Link to={l.to} className="hover:text-luxury-gold transition-colors">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
-        {/* Contact */}
-        <div className="col-span-2 md:col-span-3">
-          <h3 className="eyebrow text-imperial-gold mb-5">{t("footer.contactTitle")}</h3>
-          <ul className="space-y-3 font-body text-sm text-imperial-cream/85">
-            <li className="flex items-start gap-2.5">
-              <MapPin size={16} className="text-imperial-gold mt-0.5 shrink-0" />
-              <a href={siteConfig.mapsUrl} target="_blank" rel="noopener noreferrer" className="hover:text-imperial-gold transition-colors">
-                {siteConfig.address.street}, {siteConfig.address.city}
+        <div>
+          <h3 className="font-display text-lg text-luxury-gold uppercase tracking-luxury mb-4">
+            {t("footer.contactTitle")}
+          </h3>
+          <ul className="space-y-3 font-body text-luxury-cream/90">
+            <li className="flex items-start gap-3">
+              <MapPin size={18} className="text-luxury-gold mt-1 shrink-0" />
+              <a
+                href={siteConfig.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-luxury-gold transition-colors"
+              >
+                {siteConfig.address.street}
+                <br />
+                {siteConfig.address.city}
               </a>
             </li>
-            <li className="flex items-center gap-2.5">
-              <Mail size={16} className="text-imperial-gold shrink-0" />
-              <a href={`mailto:${siteConfig.email}`} className="hover:text-imperial-gold transition-colors whitespace-nowrap">{siteConfig.email}</a>
-            </li>
+            {siteConfig.phone && (
+              <li className="flex items-center gap-3">
+                <Phone size={18} className="text-luxury-gold shrink-0" />
+                <a href={siteConfig.phoneHref} className="hover:text-luxury-gold transition-colors">
+                  {siteConfig.phone}
+                </a>
+              </li>
+            )}
+            {siteConfig.email && (
+              <li className="flex items-center gap-3">
+                <Mail size={18} className="text-luxury-gold shrink-0" />
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="break-all hover:text-luxury-gold transition-colors"
+                >
+                  {siteConfig.email}
+                </a>
+              </li>
+            )}
           </ul>
         </div>
 
-        {/* Hours */}
-        <div className="md:col-span-2">
-          <h3 className="eyebrow text-imperial-gold mb-5">{t("footer.hoursTitle")}</h3>
-          <ul className="font-body text-sm text-imperial-cream/85">
-            <li className="flex items-start gap-2.5">
-              <Clock size={16} className="text-imperial-gold mt-0.5 shrink-0" />
-              <div className="space-y-0.5">
-                <p>{t("footer.lunch")} · {siteConfig.hours.lunch}</p>
-                <p>{t("footer.dinner")} · {siteConfig.hours.dinner}</p>
-                <p className="mt-1.5 text-imperial-cream/55 text-xs">{t("footer.closed")} {t(`days.${siteConfig.hours.closedDay.toLowerCase()}`)}</p>
-              </div>
+        <div>
+          <h3 className="font-display text-lg text-luxury-gold uppercase tracking-luxury mb-4">
+            {t("common.openingHours")}
+          </h3>
+          <ul className="space-y-3 font-body text-luxury-cream/90">
+            <li className="flex items-center gap-3">
+              <Clock size={18} className="text-luxury-gold shrink-0" />
+              <span>
+                {t("common.lunch")} : {siteConfig.hours.lunch}
+              </span>
+            </li>
+            <li className="flex items-center gap-3">
+              <Clock size={18} className="text-luxury-gold shrink-0" />
+              <span>
+                {t("common.dinner")} : {siteConfig.hours.dinner}
+              </span>
+            </li>
+            <li className="text-luxury-cream/60">
+              {t("common.closedOn", { day: siteConfig.hours.closedDay.toLowerCase() })}
             </li>
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-imperial-gold/15 py-5 section-padding flex flex-col sm:flex-row items-center justify-between gap-3 font-body text-xs text-imperial-cream/55">
-        <p>© {new Date().getFullYear()} {siteConfig.name} — {t("footer.rights")}</p>
-        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-          <Link to="/mentions-legales" className="hover:text-imperial-gold transition-colors">{t("footer.legalLink")}</Link>
-          <span className="text-imperial-gold/30">·</span>
-          <Link to="/confidentialite" className="hover:text-imperial-gold transition-colors">{t("footer.privacyLink")}</Link>
-          <span className="text-imperial-gold/30">·</span>
-          <Link to="/qr-codes" className="hover:text-imperial-gold transition-colors">{t("footer.qrStaff")}</Link>
-        </div>
-        <a href="https://ody.app" target="_blank" rel="noopener noreferrer" className="tracking-[0.15em] uppercase hover:text-imperial-gold transition-colors">
-          {t("footer.poweredBy")}
-        </a>
+      <div className="border-t border-luxury-gold/20 py-6 text-center font-body text-sm text-luxury-cream/60">
+        <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-3">
+          <Link to="/mentions-legales" className="hover:text-luxury-gold transition-colors">
+            {t("footer.legalMentions")}
+          </Link>
+          <span className="text-luxury-gold/30" aria-hidden="true">
+            ·
+          </span>
+          <Link to="/confidentialite" className="hover:text-luxury-gold transition-colors">
+            {t("footer.privacy")}
+          </Link>
+        </nav>
+        <p>
+          © {new Date().getFullYear()} {siteConfig.name} — {t("footer.rights")}
+        </p>
       </div>
     </footer>
   );

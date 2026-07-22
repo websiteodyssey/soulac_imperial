@@ -1,198 +1,312 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
-import { ShoppingBag, Leaf, Flame, Star, Plus, UtensilsCrossed } from "lucide-react";
+import { Leaf, Flame, Star, AlertCircle, Clock, ChevronDown } from "lucide-react";
 import PageHero from "../components/PageHero";
-import CartDrawer from "../components/CartDrawer";
 import Reveal from "../components/Reveal";
-import ImageReveal from "../components/ImageReveal";
-import { MENU_CATEGORIES, MENU_ITEMS } from "../data/menu";
-import { useCart } from "../context/CartContext";
-import { media } from "../config/media";
+import Ornament from "../components/Ornament";
+import ParallaxBg from "../components/ParallaxBg";
+import ReserveButton from "../components/ReserveButton";
+import Photo from "../components/Photo";
+import { CARTE_PHOTOS } from "../config/media";
+import { siteConfig } from "../config/siteConfig";
+import { MENU, type Tag, type MenuItem } from "../data/menu";
 
-const TAG_ICONS = {
+const TAG_ICON: Record<Tag, typeof Leaf> = {
+  signature: Star,
   veggie: Leaf,
   spicy: Flame,
-  popular: Star,
 };
-
-// Representative food photography per category (we cycle within each list).
-const CATEGORY_IMAGES: Record<string, string[]> = {
-  sushiSashimi: [media.dishes.sushi, media.dishes.sashimi, media.gallery[2]],
-  maki: [media.dishes.rolls, media.gallery[5], media.gallery[8]],
-  dimSum: [media.gallery[4], media.gallery[7], media.dishes.bowl],
-  wok: [media.dishes.table, media.gallery[3], media.gallery[9]],
-  yakitori: [media.gallery[6], media.gallery[10], media.gallery[11]],
-  soup: [media.dishes.ramen, media.dishes.bowl, media.gallery[3]],
-  dessert: [media.gallery[7], media.gallery[11], media.dishes.bowl],
-  drinks: [media.gallery[1], media.gallery[9], media.gallery[5]],
-};
-const fallbackImages = media.gallery;
 
 const Menu = () => {
-  const { t } = useTranslation();
-  const cart = useCart();
-  const [cartOpen, setCartOpen] = useState(false);
-  const [searchParams] = useSearchParams();
-  const tableNumber = searchParams.get("table");
-  const [activeCat, setActiveCat] = useState<string>(MENU_CATEGORIES[0]);
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language.startsWith("en") ? "en" : "fr";
+  const [active, setActive] = useState(MENU[0].id);
+  /** Catégorie vers laquelle défiler une fois le rendu terminé. */
+  const scrollDemande = useRef<string | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
 
+  // En dessous de 1024 px, la carte se lit en accordéon (une catégorie à la fois).
+  const [mobile, setMobile] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(max-width: 1023px)").matches
+  );
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActiveCat(e.target.id.replace("cat-", ""));
-        });
-      },
-      { rootMargin: "-22% 0px -68% 0px", threshold: 0 }
-    );
-    MENU_CATEGORIES.forEach((cat) => {
-      const el = document.getElementById(`cat-${cat}`);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const onChange = () => setMobile(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  const scrollToCategory = (cat: string) => {
-    const el = document.getElementById(`cat-${cat}`);
-    if (el) {
-      const offset = 96;
-      const top = el.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
+  const prix = (p: number) =>
+    new Intl.NumberFormat(lang === "en" ? "en-GB" : "fr-FR", {
+      style: "currency",
+      currency: "EUR",
+    }).format(p);
+
+  // Surligne la catégorie en cours de lecture dans la barre collante (grand écran).
+  useEffect(() => {
+    if (mobile) return;
+    const sections = MENU.map((c) => document.getElementById(`cat-${c.id}`)).filter(
+      (el): el is HTMLElement => el !== null
+    );
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (visible) setActive(visible.target.id.replace("cat-", ""));
+      },
+      { rootMargin: "-180px 0px -60% 0px", threshold: 0 }
+    );
+
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, [mobile]);
+
+  /**
+   * Ouvre une catégorie et l'amène sous l'en-tête.
+   *
+   * Le défilement ne peut pas avoir lieu dans le gestionnaire de clic : déplier
+   * la catégorie déplace tout ce qui la suit, donc la position ne devient juste
+   * qu'une fois le rendu terminé. On mémorise la demande, et l'effet ci-dessous
+   * la traite après la mise à jour de la page.
+   */
+  const amener = (id: string) => {
+    const el = document.getElementById(`cat-${id}`);
+    if (!el) return;
+    const offset = window.innerWidth >= 768 ? 150 : 128;
+    window.scrollTo({
+      top: el.getBoundingClientRect().top + window.scrollY - offset,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
   };
 
+  const goTo = (id: string) => {
+    // Déjà ouverte : rien ne bouge dans la page, on peut défiler tout de suite.
+    if (id === active) {
+      amener(id);
+      return;
+    }
+    scrollDemande.current = id;
+    setActive(id);
+  };
+
+  useEffect(() => {
+    const id = scrollDemande.current;
+    if (!id) return;
+    scrollDemande.current = null;
+    amener(id);
+  }, [active]);
+
+  // Fait suivre la puce active dans la barre horizontale (mobile).
+  useEffect(() => {
+    const chip = navRef.current?.querySelector<HTMLElement>(`[data-chip="${active}"]`);
+    chip?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+  }, [active]);
+
+  const Ligne = ({ item }: { item: MenuItem }) => (
+    <li className="group border-b border-luxury-gold/10 py-3 last:border-0 md:py-4">
+      <div className="flex items-baseline gap-3">
+        <h3 className="font-display text-base text-luxury-cream transition-colors group-hover:text-luxury-gold-bright md:text-lg">
+          {item.name[lang] ?? item.name.fr}
+        </h3>
+        <span
+          aria-hidden="true"
+          className="hidden flex-1 translate-y-[-4px] border-b border-dotted border-luxury-gold/25 sm:block"
+        />
+        <span className="num-elegant ml-auto shrink-0 font-display text-base text-luxury-gold-bright sm:ml-0 md:text-lg">
+          {prix(item.price)}
+        </span>
+      </div>
+      <p className="mt-1 font-body text-[0.82rem] leading-snug text-luxury-champagne/60 md:mt-1.5 md:text-sm md:leading-relaxed">
+        {item.desc[lang] ?? item.desc.fr}
+      </p>
+      {item.tags && item.tags.length > 0 && (
+        <ul className="mt-1.5 flex flex-wrap gap-1.5 md:mt-2 md:gap-2">
+          {item.tags.map((tag) => {
+            const Icon = TAG_ICON[tag];
+            return (
+              <li
+                key={tag}
+                className="inline-flex items-center gap-1.5 rounded-full border border-luxury-gold/30 px-2.5 py-0.5 font-accent text-[0.55rem] uppercase tracking-luxury text-luxury-gold/90"
+              >
+                <Icon size={11} strokeWidth={1.8} />
+                {t(`menu.tags.${tag}`)}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </li>
+  );
+
   return (
-    <div>
-      <PageHero title={t("menu.pageTitle")} subtitle={t("menu.pageSubtitle")} />
+    <div className="bg-luxury-black">
+      <PageHero
+        title={t("menu.heroTitle")}
+        subtitle={t("menu.heroSubtitle")}
+        image="canards"
+        lead={t("menu.introText")}
+      />
 
-      <section className="py-10 bg-imperial-ink border-b border-imperial-gold/20">
-        <div className="section-padding text-center max-w-2xl mx-auto">
-          {tableNumber ? (
-            <p className="font-body text-imperial-cream leading-relaxed inline-flex items-center gap-2 justify-center">
-              <UtensilsCrossed size={18} className="text-imperial-gold" />
-              {t("menu.tableBanner", { number: tableNumber })}
-            </p>
-          ) : (
-            <p className="font-body text-imperial-cream/70 leading-relaxed">{t("menu.clickCollectNote")}</p>
-          )}
-        </div>
-      </section>
-
-      <div className="sticky top-[52px] z-30 bg-imperial-ink/95 backdrop-blur-md border-y border-imperial-gold/25 shadow-lg shadow-black/20">
-        <div className="section-padding overflow-x-auto">
-          <div className="flex gap-2.5 py-3.5 min-w-max">
-            {MENU_CATEGORIES.map((cat) => {
-              const isActive = activeCat === cat;
-              return (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => scrollToCategory(cat)}
-                  className={`font-body uppercase text-xs tracking-[0.18em] rounded-full px-4 py-2 border transition-colors whitespace-nowrap ${
-                    isActive
-                      ? "bg-imperial-gold text-imperial-ink border-imperial-gold font-medium"
-                      : "text-imperial-cream/75 hover:text-imperial-gold border-imperial-gold/30 hover:border-imperial-gold"
-                  }`}
-                >
-                  {t(`menu.categories.${cat}`)}
-                </button>
-              );
-            })}
+      {/* Barre de catégories — collante, centrée quand elle tient, glissante sinon */}
+      <div className="sticky top-16 z-30 border-y border-luxury-gold/15 bg-luxury-black/92 backdrop-blur md:top-20">
+        <div
+          ref={navRef}
+          role="navigation"
+          aria-label={t("menu.navLabel")}
+          className="overflow-x-auto px-4 py-3 [scrollbar-width:none] md:px-8 [&::-webkit-scrollbar]:hidden"
+        >
+          {/* `w-max` + `mx-auto` : centré tant que la barre tient à l'écran,
+              défilable dès qu'elle déborde — sans jamais rogner la première puce. */}
+          <div className="mx-auto flex w-max gap-2">
+            {MENU.map((cat) => (
+              // Un bouton, pas une ancre : le routeur travaille en mode hash,
+              // un href="#…" changerait l'URL de navigation.
+              <button
+                key={cat.id}
+                type="button"
+                data-chip={cat.id}
+                onClick={() => goTo(cat.id)}
+                className={`shrink-0 cursor-pointer rounded-full border px-4 py-2 font-accent text-[0.7rem] uppercase tracking-luxury transition-colors ${
+                  active === cat.id
+                    ? "border-luxury-gold bg-luxury-gold text-luxury-black"
+                    : "border-luxury-gold/30 text-luxury-champagne/80 hover:border-luxury-gold hover:text-luxury-gold"
+                }`}
+              >
+                {cat.title[lang] ?? cat.title.fr}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Menu list over a softly moving background */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-imperial-ink" />
-        <div className="absolute inset-0 animate-pan bg-[radial-gradient(40%_50%_at_15%_10%,rgba(181,144,79,0.14),transparent_60%),radial-gradient(45%_55%_at_90%_85%,rgba(124,34,33,0.10),transparent_60%)] bg-[length:200%_200%]" />
-        <div className="absolute inset-0 bg-asanoha opacity-[0.04]" />
+      {/* La carte */}
+      <section className="emerald-wash relative overflow-hidden bg-luxury-ink py-10 grain md:py-20">
+        <ParallaxBg name="vapeurBambou" className="opacity-[0.07]" />
 
-        <div className="section-padding py-12 md:py-16 space-y-14 relative">
-          {MENU_CATEGORIES.map((cat, ci) => (
-            <Reveal as="section" key={cat} className="scroll-mt-28">
-              <span id={`cat-${cat}`} className="block scroll-mt-28" />
-              <div className="flex items-center gap-4 sm:gap-6 mb-9">
-                <span className="font-display text-5xl sm:text-7xl leading-none text-imperial-gold/30">
-                  {`0${ci + 1}`}
-                </span>
-                <div>
-                  <h2 className="text-display-md sm:text-display-lg font-display text-imperial-cream leading-none">
-                    {t(`menu.categories.${cat}`)}
-                  </h2>
-                  <div className="h-[3px] w-24 mt-3 bg-gradient-to-r from-imperial-gold to-imperial-red" />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {MENU_ITEMS.filter((item) => item.category === cat).map((item, idx) => {
-                  const imgs = CATEGORY_IMAGES[cat] ?? fallbackImages;
-                  const img = imgs[idx % imgs.length];
-                  return (
-                  <div key={item.id} className="imperial-card group flex flex-col overflow-hidden">
-                    <ImageReveal
-                      src={img}
-                      alt={t(`menu.items.${item.id}.name`)}
-                      className="aspect-[4/3]"
-                      panel="ink"
-                      imgClassName="group-hover:scale-110"
+        <div className="section-padding relative z-10">
+          <div className="mx-auto max-w-5xl space-y-10 md:space-y-16">
+            {MENU.map((cat) => {
+              const titre = cat.title[lang] ?? cat.title.fr;
+              const moitie = Math.ceil(cat.items.length / 2);
+              // Sur mobile, une seule catégorie est dépliée à la fois : la carte
+              // tient alors en quelques écrans au lieu d'un rouleau de 48 plats.
+              const ouverte = !mobile || active === cat.id;
+              return (
+                // `scroll-mt` compense l'en-tête + la barre collante.
+                <section key={cat.id} id={`cat-${cat.id}`} className="scroll-mt-40 md:scroll-mt-44">
+                  {/* Bandeau photo : chaque catégorie s'ouvre sur son plat.
+                      Pas de `Reveal` non plus — c'est la charpente de la page. */}
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!mobile) return;
+                        if (ouverte) setActive("");
+                        else goTo(cat.id);
+                      }}
+                      aria-expanded={mobile ? ouverte : undefined}
+                      aria-controls={`liste-${cat.id}`}
+                      className="relative block h-28 w-full overflow-hidden rounded-xl border border-luxury-gold/20 md:h-44 md:cursor-default"
                     >
-                      <span className="absolute top-3 right-3 z-10 bg-imperial-ink/80 text-imperial-gold font-display text-base px-2.5 py-1">
-                        {item.price.toFixed(2)} €
-                      </span>
-                    </ImageReveal>
-                    <div className="p-5 flex flex-col flex-1">
-                    <h3 className="font-display text-xl text-imperial-cream mb-1">{t(`menu.items.${item.id}.name`)}</h3>
-                    <p className="font-body font-light text-sm text-imperial-cream/70 leading-relaxed flex-1">
-                      {t(`menu.items.${item.id}.desc`)}
-                    </p>
-                    <div className="flex items-center justify-between mt-4">
-                      <div className="flex items-center gap-2">
-                        {(item.tags ?? []).map((tag) => {
-                          const Icon = TAG_ICONS[tag];
-                          return (
-                            <span key={tag} title={t(`menu.tags.${tag}`)} className="text-imperial-jade">
-                              <Icon size={16} strokeWidth={1.5} />
-                            </span>
-                          );
-                        })}
+                      <Photo
+                        name={CARTE_PHOTOS[cat.id]}
+                        alt={t("menu.categoryAlt", { name: titre })}
+                        sizes="(min-width: 1024px) 64rem, 100vw"
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-luxury-black/60" />
+                      <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+                        <h2 className="pb-1 font-display text-2xl text-gold-foil md:text-4xl">
+                          {titre}
+                        </h2>
+                        <p className="mt-1 hidden font-body text-sm italic text-luxury-champagne/80 sm:block md:text-base">
+                          {cat.note[lang] ?? cat.note.fr}
+                        </p>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          cart.addItem({ id: item.id, nameKey: `menu.items.${item.id}.name`, price: item.price })
-                        }
-                        className="flex items-center gap-1.5 border border-imperial-gold/60 text-imperial-cream hover:bg-imperial-gold hover:text-imperial-ink transition-colors text-xs uppercase tracking-[0.15em] px-3.5 py-2"
-                      >
-                        <Plus size={14} /> {t("menu.addToCart")}
-                      </button>
-                    </div>
-                    </div>
+                      {mobile && (
+                        <ChevronDown
+                          size={20}
+                          aria-hidden="true"
+                          className={`absolute bottom-2 left-1/2 -translate-x-1/2 text-luxury-gold transition-transform duration-300 ${
+                            ouverte ? "rotate-180" : ""
+                          }`}
+                        />
+                      )}
+                      <span className="frame-inset" aria-hidden="true" />
+                    </button>
                   </div>
-                  );
-                })}
+
+                  {/* Deux colonnes sur grand écran : la carte se lit d'un coup d'œil.
+                      Volontairement PAS de `Reveal` ici : une liste qu'on vient
+                      de déplier doit être visible immédiatement, sans attendre
+                      qu'un observateur d'intersection la révèle. */}
+                  {ouverte && (
+                    <div id={`liste-${cat.id}`} className="mt-4 grid gap-x-12 md:mt-6 lg:grid-cols-2">
+                      <ul>
+                        {cat.items.slice(0, moitie).map((item) => (
+                          <Ligne key={item.id} item={item} />
+                        ))}
+                      </ul>
+                      <ul>
+                        {cat.items.slice(moitie).map((item) => (
+                          <Ligne key={item.id} item={item} />
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </section>
+              );
+            })}
+          </div>
+
+          {/* Informations pratiques */}
+          <div className="mx-auto mt-10 grid max-w-5xl gap-4 md:mt-14 md:grid-cols-2">
+            <Reveal className="luxury-card-dark flex items-start gap-4 p-6">
+              <AlertCircle className="mt-1 shrink-0 text-luxury-gold" size={22} strokeWidth={1.5} />
+              <div>
+                <h3 className="mb-2 font-accent text-xs uppercase tracking-luxury text-luxury-gold">
+                  {t("menu.allergensTitle")}
+                </h3>
+                <p className="font-body leading-relaxed text-luxury-champagne/70">
+                  {t("menu.allergensText")}
+                </p>
               </div>
             </Reveal>
-          ))}
+
+            <Reveal delay={100} className="luxury-card-dark flex items-start gap-4 p-6">
+              <Clock className="mt-1 shrink-0 text-luxury-gold" size={22} strokeWidth={1.5} />
+              <div>
+                <h3 className="mb-2 font-accent text-xs uppercase tracking-luxury text-luxury-gold">
+                  {t("menu.serviceTitle")}
+                </h3>
+                <p className="font-body leading-relaxed text-luxury-champagne/70">
+                  {t("menu.serviceText")}
+                </p>
+                <p className="mt-3 font-body text-luxury-champagne/85">
+                  {t("common.lunch")} : {siteConfig.hours.lunch} · {t("common.dinner")} :{" "}
+                  {siteConfig.hours.dinner}
+                </p>
+              </div>
+            </Reveal>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <button
-        type="button"
-        onClick={() => setCartOpen(true)}
-        className="fixed bottom-6 right-6 z-30 flex items-center gap-2 bg-imperial-ink text-imperial-cream px-5 py-4 shadow-xl hover:bg-imperial-ink-light transition-colors"
-        aria-label={t("common.cart")}
-      >
-        <ShoppingBag size={20} />
-        <span className="font-body uppercase text-sm tracking-imperial">{t("menu.viewCart")}</span>
-        {cart.itemCount > 0 && (
-          <span className="bg-imperial-gold text-imperial-ink text-xs font-semibold rounded-full h-6 w-6 flex items-center justify-center">
-            {cart.itemCount}
-          </span>
-        )}
-      </button>
-
-      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} tableNumber={tableNumber} />
+      {/* Appel à réserver */}
+      <section className="relative overflow-hidden bg-luxury-black py-12 text-center grain md:py-20">
+        <ParallaxBg name="flamme" className="opacity-25" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-luxury-black via-luxury-black/75 to-luxury-black/85" />
+        <Reveal className="section-padding relative z-10">
+          <Ornament className="mb-7" />
+          <ReserveButton
+            label={t("menu.reserveCta")}
+            className="btn-shine inline-block rounded-full bg-luxury-gold px-12 py-4 font-accent text-sm uppercase tracking-luxury text-luxury-black transition-colors hover:bg-luxury-gold-bright"
+          />
+        </Reveal>
+      </section>
     </div>
   );
 };

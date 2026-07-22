@@ -11,13 +11,14 @@ interface LanguageSwitcherProps {
   dark?: boolean;
 }
 
-const LanguageSwitcher = ({ dark = true }: LanguageSwitcherProps) => {
+const LanguageSwitcher = ({ dark }: LanguageSwitcherProps) => {
   const { i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
+  // `i18n.language` peut valoir « fr-FR » : on compare sur le préfixe.
   const current =
-    LANGUAGES.find((l) => l.code === i18n.language.split("-")[0]) ?? LANGUAGES[0];
+    LANGUAGES.find((l) => i18n.language?.startsWith(l.code)) ?? LANGUAGES[0];
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -29,22 +30,22 @@ const LanguageSwitcher = ({ dark = true }: LanguageSwitcherProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const textColor = dark ? "text-imperial-cream" : "text-imperial-ink";
+  const textColor = dark ? "text-luxury-cream" : "text-luxury-cream";
 
   return (
     <div className="relative" ref={ref}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={`flex items-center gap-1 ${textColor} hover:text-imperial-gold transition-colors font-body uppercase text-xs tracking-[0.2em]`}
+        className={`flex items-center gap-1.5 ${textColor} hover:text-luxury-gold transition-colors font-body uppercase text-sm tracking-wide`}
         aria-label="Change language"
       >
-        <Globe size={13} strokeWidth={1.5} />
+        <Globe size={16} />
         {current.label}
-        <ChevronDown size={11} strokeWidth={1.5} />
+        <ChevronDown size={14} />
       </button>
       {open && (
-        <div className="absolute right-0 mt-2 w-32 bg-imperial-ink border border-imperial-gold/30 shadow-xl z-50">
+        <div className="absolute right-0 mt-2 w-32 bg-luxury-black border border-luxury-gold/30 shadow-xl z-50">
           {LANGUAGES.map((lang) => (
             <button
               key={lang.code}
@@ -55,8 +56,8 @@ const LanguageSwitcher = ({ dark = true }: LanguageSwitcherProps) => {
               }}
               className={`block w-full text-left px-4 py-2 text-sm font-body transition-colors ${
                 lang.code === current.code
-                  ? "text-imperial-gold"
-                  : "text-imperial-cream hover:text-imperial-gold"
+                  ? "text-luxury-gold"
+                  : "text-luxury-cream hover:text-luxury-gold"
               }`}
             >
               {lang.name}

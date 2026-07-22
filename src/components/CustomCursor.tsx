@@ -1,59 +1,79 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-/**
- * A refined two-part cursor (dot + trailing outline) on fine-pointer devices.
- * Disabled on touch via CSS; respects reduced motion.
- */
 const CustomCursor = () => {
+  const [enabled] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches
+  );
   const dotRef = useRef<HTMLDivElement>(null);
-  const outlineRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!finePointer || reduced) return;
-
-    document.body.classList.add("cursor-active");
+    if (!enabled) return;
     const dot = dotRef.current;
-    const outline = outlineRef.current;
-    if (!dot || !outline) return;
+    const ring = ringRef.current;
+    if (!dot || !ring) return;
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let outlineX = mouseX;
-    let outlineY = mouseY;
+    document.documentElement.classList.add("cursor-none");
+
+    let x = -100;
+    let y = -100;
+    let hovering = false;
     let raf = 0;
 
-    const onMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    // Only touch the DOM inside a single rAF, never on every mouse event.
+    const render = () => {
+      raf = 0;
+      const size = hovering ? 48 : 32;
+      dot.style.transform = `translate3d(${x - 3}px, ${y - 3}px, 0)`;
+      ring.style.width = `${size}px`;
+      ring.style.height = `${size}px`;
+      ring.style.transform = `translate3d(${x - size / 2}px, ${y - size / 2}px, 0)`;
+      ring.style.opacity = hovering ? "0.7" : "0.4";
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(render);
+    };
+
+    const handleMove = (e: MouseEvent) => {
+      x = e.clientX;
+      y = e.clientY;
+      schedule();
+    };
+    const handleOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      const interactive = target.closest("a, button, input, textarea, select, label, [role='button']");
-      outline.classList.toggle("is-hover", Boolean(interactive));
+      const next = !!target.closest("a, button, input, textarea, select");
+      if (next !== hovering) {
+        hovering = next;
+        ring.classList.toggle("cursor-ring--hover", hovering);
+        schedule();
+      }
     };
 
-    const loop = () => {
-      outlineX += (mouseX - outlineX) * 0.18;
-      outlineY += (mouseY - outlineY) * 0.18;
-      outline.style.transform = `translate(${outlineX}px, ${outlineY}px) translate(-50%, -50%)`;
-      raf = requestAnimationFrame(loop);
-    };
-
-    window.addEventListener("mousemove", onMove);
-    raf = requestAnimationFrame(loop);
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    window.addEventListener("mouseover", handleOver, { passive: true });
 
     return () => {
-      window.removeEventListener("mousemove", onMove);
+      document.documentElement.classList.remove("cursor-none");
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mouseover", handleOver);
       cancelAnimationFrame(raf);
-      document.body.classList.remove("cursor-active");
     };
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) return null;
 
   return (
     <>
-      <div ref={dotRef} className="cursor-dot" aria-hidden="true" />
-      <div ref={outlineRef} className="cursor-outline" aria-hidden="true" />
+      <div
+        ref={dotRef}
+        className="pointer-events-none fixed top-0 left-0 z-[200] h-1.5 w-1.5 rounded-full bg-luxury-gold"
+        style={{ transform: "translate3d(-100px, -100px, 0)" }}
+      />
+      <div
+        ref={ringRef}
+        className="cursor-ring pointer-events-none fixed top-0 left-0 z-[200] h-8 w-8 rounded-full border border-luxury-gold opacity-40 transition-[width,height,opacity] duration-300 ease-out"
+        style={{ transform: "translate3d(-100px, -100px, 0)" }}
+      />
     </>
   );
 };

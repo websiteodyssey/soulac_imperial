@@ -1,41 +1,55 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { siteConfig } from "../config/siteConfig";
 import { media } from "../config/media";
 
-/** Brief, smooth intro loader: brand logo over black + a single fluid gold fill. */
+/** Voile d'ouverture : logo, filet doré, puis effacement. Ne s'affiche qu'une fois par visite. */
 const Loader = () => {
-  const [fill, setFill] = useState(false);
-  const [done, setDone] = useState(false);
-  const [removed, setRemoved] = useState(false);
+  const { t } = useTranslation();
+  const [hidden, setHidden] = useState(false);
+  const [fading, setFading] = useState(false);
 
   useEffect(() => {
-    const raf = requestAnimationFrame(() => setFill(true)); // start the fill transition
-    const t1 = window.setTimeout(() => setDone(true), 1300); // fade out
-    const t2 = window.setTimeout(() => setRemoved(true), 2000); // unmount
+    const fadeTimer = setTimeout(() => setFading(true), 1200);
+    const hideTimer = setTimeout(() => setHidden(true), 1700);
     return () => {
-      cancelAnimationFrame(raf);
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
+      clearTimeout(fadeTimer);
+      clearTimeout(hideTimer);
     };
   }, []);
 
-  if (removed) return null;
+  if (hidden) return null;
+
+  const [first, ...rest] = siteConfig.name.split(" ");
 
   return (
-    <div className={`loader ${done ? "is-done" : ""}`} style={{ background: "#000" }} aria-hidden="true">
+    <div
+      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-luxury-black grain transition-opacity duration-500 ${
+        fading ? "opacity-0" : "opacity-100"
+      }`}
+      aria-hidden={fading}
+    >
+      <div className="frame-inset" />
       <img
         src={media.logo}
         alt=""
-        className="w-56 md:w-72 max-w-[70vw] select-none"
-        style={{ animation: "logo-in 1s cubic-bezier(0.16,1,0.3,1) both" }}
+        width={80}
+        height={80}
+        className="animate-fade-up h-16 w-16 md:h-20 md:w-20 object-contain mb-7"
       />
-      <div className="loader-bar">
-        <span
-          style={{
-            width: fill ? "100%" : "0%",
-            transition: "width 1.25s cubic-bezier(0.22, 1, 0.36, 1)",
-          }}
-        />
+      <p
+        className="animate-fade-up font-display text-3xl md:text-5xl tracking-luxury uppercase text-center px-6"
+        style={{ animationDelay: "0.1s" }}
+      >
+        <span className="text-luxury-cream">{first} </span>
+        <span className="text-gold-shimmer">{rest.join(" ")}</span>
+      </p>
+      <div className="w-40 md:w-56 h-px bg-luxury-gold/20 mt-8 overflow-hidden">
+        <div className="h-full bg-luxury-gold animate-loader-bar" />
       </div>
+      <p className="mt-4 text-xs tracking-luxury-wide uppercase text-luxury-gray font-body">
+        {t("common.loading")}
+      </p>
     </div>
   );
 };
