@@ -71,6 +71,20 @@ const LegalMentions = () => {
             <p>{t("legal.photosText")}</p>
           </LegalSection>
 
+          <LegalSection title={t("legal.designTitle")}>
+            <p>
+              Conception et développement du site : ODY –{" "}
+              <a
+                href="https://pro.ody.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-luxury-gold hover:underline"
+              >
+                https://pro.ody.app/
+              </a>
+            </p>
+          </LegalSection>
+
           </div>
 
           <div className="mt-10 text-center">

@@ -155,6 +155,16 @@ const Footer = () => {
         <p>
           © {new Date().getFullYear()} {siteConfig.name} — {t("footer.rights")}
         </p>
+        <p className="mt-2 text-xs text-luxury-cream/40">
+          <a
+            href="https://pro.ody.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-luxury-gold transition-colors"
+          >
+            Powered by ODY
+          </a>
+        </p>
       </div>
     </footer>
   );
