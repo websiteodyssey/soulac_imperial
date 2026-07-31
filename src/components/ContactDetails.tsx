@@ -112,7 +112,9 @@ const ContactDetails = ({ actions, showSocial = false, mapDesktopOnly = false }:
               {t("contact.hoursDinner", { hours: siteConfig.hours.dinner })}
             </p>
             <p className="text-luxury-champagne/55 mt-1">
-              {t("contact.hoursDays", { day: siteConfig.hours.closedDay.toLowerCase() })}
+              {siteConfig.hours.closedDay
+                ? t("contact.hoursDays", { day: siteConfig.hours.closedDay.toLowerCase() })
+                : t("contact.hoursOpenDaily")}
             </p>
           </div>
         </Reveal>

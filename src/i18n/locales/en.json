@@ -13,6 +13,7 @@
     "dinner": "Dinner",
     "openingHours": "Opening hours",
     "closedOn": "Closed on {{day}}",
+    "openDaily": "Open 7 days a week",
     "previous": "Previous",
     "next": "Next",
     "findUsEyebrow": "Find us",
@@ -152,6 +153,7 @@
     "hoursLunch": "Lunch: {{hours}}",
     "hoursDinner": "Dinner: {{hours}}",
     "hoursDays": "Every day except {{day}}",
+    "hoursOpenDaily": "Open 7 days a week",
     "followTitle": "Follow us",
     "mapCta": "Open in Google Maps"
   },

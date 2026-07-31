@@ -134,7 +134,9 @@ const Footer = () => {
               </span>
             </li>
             <li className="text-luxury-cream/60">
-              {t("common.closedOn", { day: siteConfig.hours.closedDay.toLowerCase() })}
+              {siteConfig.hours.closedDay
+                ? t("common.closedOn", { day: siteConfig.hours.closedDay.toLowerCase() })
+                : t("common.openDaily")}
             </li>
           </ul>
         </div>

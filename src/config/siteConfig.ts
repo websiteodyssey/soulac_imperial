@@ -12,8 +12,8 @@ export const siteConfig = {
   reservationUrl: "",
 
   email: "contact@soulacimperial.fr",
-  phone: "",
-  phoneHref: "",
+  phone: "09 57 53 88 88",
+  phoneHref: "tel:+33957538888",
 
   address: {
     street: "1 Rue el Burgo de Osma",
@@ -24,7 +24,8 @@ export const siteConfig = {
   hours: {
     lunch: "12h00 - 14h30",
     dinner: "19h00 - 22h00",
-    closedDay: "Mardi",
+    // Vide = ouvert 7j/7 (affiche "Ouvert 7 jours sur 7" au lieu d'un jour de fermeture).
+    closedDay: "",
   },
 
   // Laisser vide pour masquer l'icône.

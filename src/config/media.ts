@@ -161,12 +161,12 @@ export const GALERIE_TABLE: MediaKey[] = SPECIALITES;
 
 /** La Carte — une photo par catégorie, dans l'ordre de `MENU` (data/menu). */
 export const CARTE_PHOTOS: Record<string, MediaKey> = {
+  formules: "plateau",
   entrees: "carteSoupe",
-  dimsum: "vapeurPanier",
-  sushi: "carteSushi",
-  maki: "carteMaki",
-  grillades: "brochettes",
-  wok: "carteWok",
+  plats: "carteWok",
+  "nouilles-riz": "epices",
   desserts: "dessertDresse",
+  glaces: "dessert",
+  creations: "sashimi",
   boissons: "sake",
 };

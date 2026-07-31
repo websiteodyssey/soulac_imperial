@@ -119,9 +119,11 @@ const Menu = () => {
           {prix(item.price)}
         </span>
       </div>
-      <p className="mt-1 font-body text-[0.82rem] leading-snug text-luxury-champagne/60 md:mt-1.5 md:text-sm md:leading-relaxed">
-        {item.desc[lang] ?? item.desc.fr}
-      </p>
+      {(item.desc[lang] ?? item.desc.fr) && (
+        <p className="mt-1 font-body text-[0.82rem] leading-snug text-luxury-champagne/60 md:mt-1.5 md:text-sm md:leading-relaxed">
+          {item.desc[lang] ?? item.desc.fr}
+        </p>
+      )}
       {item.tags && item.tags.length > 0 && (
         <ul className="mt-1.5 flex flex-wrap gap-1.5 md:mt-2 md:gap-2">
           {item.tags.map((tag) => {
