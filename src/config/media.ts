@@ -147,7 +147,6 @@ export const SPECIALITES: MediaKey[] = [
   "wok",
   "canard",
   "plateau",
-  "ramen",
   "epices",
   "dessert",
 ];
@@ -161,11 +160,21 @@ export const FAMILLES_PHOTOS: MediaKey[] = [
   "carteMaki",
   "carteDimsum",
   "carteWok",
+  // « ramen » vient du bandeau défilant, qui n'en compte donc plus que huit :
+  // une photo ne peut pas tenir les deux rôles sur une même page.
+  "ramen",
   "dessertDresse",
 ];
 
 /** Accueil — bande « atmosphère » : 4 vues de salle, distinctes du hero. */
 export const MOSAIQUE: MediaKey[] = ["panoramique", "ocre", "miroir", "intime"];
+
+/**
+ * Accueil — les deux photos qui encadrent la vidéo de service. Prises en salle
+ * comme elle, elles ne portent aucune légende : le bloc montre le geste, pas
+ * une carte. Aucune des deux ne paraît ailleurs sur l'accueil.
+ */
+export const SERVICE_PHOTOS: MediaKey[] = ["cuilleresSaumon", "vapeurHakao"];
 
 /** Galerie — toutes les vues de salle sauf celle de son propre hero (`bar`). */
 export const GALERIE_SALLE: MediaKey[] = [

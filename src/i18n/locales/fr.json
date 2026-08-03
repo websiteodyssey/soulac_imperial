@@ -81,8 +81,10 @@
     "universe3Text": "Pliés à la main, cuits à la vapeur de bambou.",
     "universe4Title": "Woks & Plats",
     "universe4Text": "Saisis à feu vif, croquants et parfumés.",
-    "universe5Title": "Desserts",
-    "universe5Text": "Mochis glacés, perles de coco, sésame noir.",
+    "universe5Title": "Nouilles & Riz",
+    "universe5Text": "Sautés au wok, l'accompagnement qui complète le repas.",
+    "universe6Title": "Desserts",
+    "universe6Text": "Mochis glacés, perles de coco, sésame noir.",
     "universesCardTitle": "Toute la carte, catégorie par catégorie",
     "storyEyebrow": "La maison",
     "storyTitle": "Deux cuisines, une même table",
@@ -106,7 +108,11 @@
     "famillesEyebrow": "La carte",
     "famillesTitle": "Six familles, un même soin",
     "famillesSubtitle": "De la bouchée vapeur au poisson cru, chaque famille a son geste et son moment.",
-    "ambianceLead": "Poussez la porte : la lumière du soir se pose sur les fresques et le repas commence."
+    "ambianceLead": "Poussez la porte : la lumière du soir se pose sur les fresques et le repas commence.",
+    "serviceEyebrow": "En salle",
+    "serviceTitle": "Le service, en mouvement",
+    "serviceText": "Les plateaux partent de la cuisine et traversent la salle sous la fresque. Quelques secondes filmées chez nous, un midi ordinaire.",
+    "serviceVideoAlt": "Un plateau servi en salle au Soulac Impérial"
   },
   "about": {
     "heroTitle": "La Maison",
@@ -179,11 +185,7 @@
     "hoursDays": "Tous les jours sauf le {{day}}",
     "hoursOpenDaily": "Ouvert 7 jours sur 7",
     "followTitle": "Nous suivre",
-    "mapCta": "Ouvrir dans Google Maps",
-    "videoEyebrow": "En salle",
-    "videoTitle": "Le service, en mouvement",
-    "videoText": "Les plateaux partent de la cuisine et traversent la salle sous la fresque. Quelques secondes filmées chez nous, un midi ordinaire.",
-    "videoAlt": "Un plateau servi en salle au Soulac Impérial"
+    "mapCta": "Ouvrir dans Google Maps"
   },
   "legal": {
     "heroTitle": "Mentions légales",

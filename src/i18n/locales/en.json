@@ -81,8 +81,10 @@
     "universe3Text": "Folded by hand, steamed in bamboo.",
     "universe4Title": "Wok & Mains",
     "universe4Text": "Seared over a fierce flame, crisp and fragrant.",
-    "universe5Title": "Desserts",
-    "universe5Text": "Ice-cream mochi, coconut pearls, black sesame.",
+    "universe5Title": "Noodles & Rice",
+    "universe5Text": "Stir-fried in the wok, the finishing touch to any meal.",
+    "universe6Title": "Desserts",
+    "universe6Text": "Ice-cream mochi, coconut pearls, black sesame.",
     "universesCardTitle": "The full menu, course by course",
     "storyEyebrow": "The house",
     "storyTitle": "Two cuisines, one table",
@@ -106,7 +108,11 @@
     "famillesEyebrow": "The menu",
     "famillesTitle": "Six families, one standard",
     "famillesSubtitle": "From steamed parcels to raw fish, each family has its gesture and its moment.",
-    "ambianceLead": "Step inside: evening light settles on the frescoes and the meal begins."
+    "ambianceLead": "Step inside: evening light settles on the frescoes and the meal begins.",
+    "serviceEyebrow": "In the room",
+    "serviceTitle": "Service, in motion",
+    "serviceText": "Platters leave the kitchen and cross the room beneath the fresco. A few seconds filmed here, on an ordinary lunchtime.",
+    "serviceVideoAlt": "A platter served in the dining room at Soulac Impérial"
   },
   "about": {
     "heroTitle": "The House",
@@ -179,11 +185,7 @@
     "hoursDays": "Every day except {{day}}",
     "hoursOpenDaily": "Open 7 days a week",
     "followTitle": "Follow us",
-    "mapCta": "Open in Google Maps",
-    "videoEyebrow": "In the room",
-    "videoTitle": "Service, in motion",
-    "videoText": "Platters leave the kitchen and cross the room beneath the fresco. A few seconds filmed here, on an ordinary lunchtime.",
-    "videoAlt": "A platter served in the dining room at Soulac Impérial"
+    "mapCta": "Open in Google Maps"
   },
   "legal": {
     "heroTitle": "Legal notice",
