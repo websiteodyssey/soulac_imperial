@@ -47,7 +47,11 @@ const Home = () => {
   }));
 
   const socials = [
-    { url: siteConfig.social.instagram, label: "Instagram", Icon: InstagramIcon },
+    {
+      url: siteConfig.social.instagram,
+      label: "Instagram",
+      Icon: InstagramIcon,
+    },
     { url: siteConfig.social.facebook, label: "Facebook", Icon: FacebookIcon },
   ].filter((s) => s.url);
 
@@ -102,7 +106,10 @@ const Home = () => {
               className="btn-shine group inline-flex w-full items-center justify-center gap-2 rounded-full border border-luxury-gold py-3.5 font-accent text-xs uppercase tracking-luxury text-luxury-gold transition-colors hover:bg-luxury-gold hover:text-luxury-black sm:w-56 sm:py-4 sm:text-sm"
             >
               {t("home.heroCtaMenu")}
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              <ArrowRight
+                size={16}
+                className="transition-transform group-hover:translate-x-1"
+              />
             </Link>
             <ReserveButton className="btn-shine inline-flex w-full items-center justify-center gap-2 rounded-full bg-luxury-gold py-3.5 font-accent text-xs uppercase tracking-luxury text-luxury-black transition-colors hover:bg-luxury-gold-bright sm:w-56 sm:py-4 sm:text-sm" />
           </div>
@@ -218,8 +225,12 @@ const Home = () => {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span>
-                    <span className="block font-display text-lg text-luxury-cream">{p.title}</span>
-                    <span className="block font-body text-luxury-champagne/60">{p.text}</span>
+                    <span className="block font-display text-lg text-luxury-cream">
+                      {p.title}
+                    </span>
+                    <span className="block font-body text-luxury-champagne/60">
+                      {p.text}
+                    </span>
                   </span>
                 </li>
               ))}
@@ -230,7 +241,10 @@ const Home = () => {
               className="group mt-8 inline-flex items-center gap-2 font-accent text-sm uppercase tracking-luxury text-luxury-gold transition-colors hover:text-luxury-gold-bright"
             >
               {t("home.storyCta")}
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              <ArrowRight
+                size={16}
+                className="transition-transform group-hover:translate-x-1"
+              />
             </Link>
           </Reveal>
         </div>
@@ -272,7 +286,11 @@ const Home = () => {
           decoratif
           className="pointer-events-none absolute inset-y-6 left-0 w-[86%] overflow-hidden rounded-r-[2rem] border-y border-r border-luxury-gold/20 sm:w-[72%] lg:w-[58%] lg:rounded-r-[2.5rem]"
         >
-          <Photo name={SERVICE_BANDE} sizes="(min-width: 1024px) 60vw, 90vw" className="h-full w-full object-cover" />
+          <Photo
+            name={SERVICE_BANDE}
+            sizes="(min-width: 1024px) 60vw, 90vw"
+            className="h-full w-full object-cover"
+          />
           {/* Sur mobile le texte passe au milieu de la bande : elle est donc
               bien plus éteinte, et un second voile vertical protège la lecture.
               Sur grand écran le texte reste à gauche, la photo peut respirer. */}
@@ -281,24 +299,38 @@ const Home = () => {
         </ScrollGlide>
 
         <div className="section-padding relative z-10 mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
-          <Reveal className="order-2 text-center lg:order-1 lg:text-left">
-            <p className="font-accent text-xs uppercase tracking-luxury-wide text-luxury-gold">
-              {t("home.serviceEyebrow")}
-            </p>
-            <h2 className="mt-4 pb-1 font-display text-display-md leading-tight text-gold-foil">
-              {t("home.serviceTitle")}
-            </h2>
-            <p className="mt-6 font-body text-lg leading-relaxed text-luxury-champagne/75">
-              {t("home.serviceText")}
-            </p>
-            <Link
-              to="/galerie"
-              className="group mt-8 inline-flex items-center gap-2 rounded-full border border-luxury-gold px-8 py-4 font-accent text-sm uppercase tracking-luxury text-luxury-gold transition-colors hover:bg-luxury-gold hover:text-luxury-black"
-            >
-              {t("home.ambianceCta")}
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-            </Link>
-          </Reveal>
+          {/* Le texte entre par la gauche avec la bande sur laquelle il repose :
+              figé pendant qu'elle glissait dessous, il paraissait décollé.
+              La course est exprimée en part de sa propre largeur : il en faut
+              près du double pour couvrir la même distance que la bande, bien
+              plus large — sans quoi le texte dériverait sur elle en chemin. */}
+          <ScrollGlide
+            from="left"
+            amplitude={194}
+            className="order-2 text-center lg:order-1 lg:text-left"
+          >
+            <Reveal>
+              <p className="font-accent text-xs uppercase tracking-luxury-wide text-luxury-gold">
+                {t("home.serviceEyebrow")}
+              </p>
+              <h2 className="mt-4 pb-1 font-display text-display-md leading-tight text-gold-foil">
+                {t("home.serviceTitle")}
+              </h2>
+              <p className="mt-6 font-body text-lg leading-relaxed text-luxury-champagne/75">
+                {t("home.serviceText")}
+              </p>
+              <Link
+                to="/galerie"
+                className="group mt-8 inline-flex items-center gap-2 rounded-full border border-luxury-gold px-8 py-4 font-accent text-sm uppercase tracking-luxury text-luxury-gold transition-colors hover:bg-luxury-gold hover:text-luxury-black"
+              >
+                {t("home.ambianceCta")}
+                <ArrowRight
+                  size={16}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              </Link>
+            </Reveal>
+          </ScrollGlide>
 
           <Reveal delay={140} className="order-1 lg:order-2">
             {/* Course volontairement courte : la vidéo répond à la bande sans
@@ -377,7 +409,9 @@ const Home = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-luxury-black/45 to-luxury-black/10" />
                   <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5">
                     <span className="mb-2 block h-px w-8 origin-left scale-x-50 bg-luxury-gold transition-transform duration-500 group-hover:scale-x-100" />
-                    <h3 className="font-display text-base text-luxury-cream sm:text-xl">{f.title}</h3>
+                    <h3 className="font-display text-base text-luxury-cream sm:text-xl">
+                      {f.title}
+                    </h3>
                     <p className="mt-1 hidden font-body text-sm text-luxury-champagne/70 sm:block">
                       {f.text}
                     </p>
@@ -393,7 +427,10 @@ const Home = () => {
               className="btn-shine group inline-flex items-center gap-2 rounded-full bg-luxury-gold px-9 py-4 font-accent text-sm uppercase tracking-luxury text-luxury-black transition-colors hover:bg-luxury-gold-bright"
             >
               {t("home.specialtiesCta")}
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              <ArrowRight
+                size={16}
+                className="transition-transform group-hover:translate-x-1"
+              />
             </Link>
           </Reveal>
         </div>
@@ -435,7 +472,10 @@ const Home = () => {
               className="group inline-flex items-center gap-2 rounded-full border border-luxury-gold px-8 py-4 font-accent text-sm uppercase tracking-luxury text-luxury-gold transition-colors hover:bg-luxury-gold hover:text-luxury-black"
             >
               {t("home.ambianceCta")}
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              <ArrowRight
+                size={16}
+                className="transition-transform group-hover:translate-x-1"
+              />
             </Link>
           </Reveal>
         </div>
