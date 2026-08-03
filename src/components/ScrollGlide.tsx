@@ -7,6 +7,13 @@ interface ScrollGlideProps {
   amplitude?: number;
   /** Élément purement décoratif : il est alors retiré aux lecteurs d'écran. */
   decoratif?: boolean;
+  /**
+   * Largeur d'écran à partir de laquelle le glissement s'anime, en pixels.
+   * En dessous, l'élément est simplement posé à sa place définitive : sur un
+   * téléphone, une composition en colonne unique n'a pas la largeur nécessaire
+   * pour qu'un glissement latéral veuille dire quelque chose.
+   */
+  aPartirDe?: number;
   className?: string;
   children: ReactNode;
 }
@@ -43,6 +50,7 @@ const ScrollGlide = ({
   from,
   amplitude = 100,
   decoratif = false,
+  aPartirDe = 0,
   className = "",
   children,
 }: ScrollGlideProps) => {
@@ -52,11 +60,23 @@ const ScrollGlide = ({
     const el = ref.current;
     if (!el) return;
 
-    // Mouvement refusé : l'élément reste à sa place définitive, sans bouger.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.style.transform = "translate3d(0, 0, 0)";
-      return;
-    }
+    const refuse = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const assezLarge = window.matchMedia(`(min-width: ${aPartirDe}px)`);
+    let arreter = () => {};
+
+    /** (Re)met en place le glissement, ou l'annule selon les conditions. */
+    const installer = () => {
+      arreter();
+      arreter = () => {};
+
+      // Mouvement refusé, ou écran trop étroit pour qu'il ait du sens :
+      // l'élément est simplement posé à sa place définitive.
+      if (refuse.matches || !assezLarge.matches) {
+        el.style.transform = "translate3d(0, 0, 0)";
+        return;
+      }
+      arreter = animer(el);
+    };
 
     const repos = from === "left" ? -amplitude : amplitude;
 
@@ -68,59 +88,79 @@ const ScrollGlide = ({
       const vh = window.innerHeight;
 
       // Écart du centre de la section au centre de l'écran, ramené entre 0 et 1.
-      const ecart = (rect.top + rect.height / 2 - vh / 2) / (vh / 2 + rect.height / 2);
+      const ecart =
+        (rect.top + rect.height / 2 - vh / 2) / (vh / 2 + rect.height / 2);
       const distance = Math.min(1, Math.abs(ecart));
 
       // Un palier au milieu : rien ne bouge pendant qu'on lit le bloc, et le
       // repli n'intervient qu'une fois celui-ci nettement dépassé.
       const PALIER = 0.22;
       const COURSE = 0.62;
-      const brut = distance <= PALIER ? 1 : Math.max(0, 1 - (distance - PALIER) / COURSE);
+      const brut =
+        distance <= PALIER ? 1 : Math.max(0, 1 - (distance - PALIER) / COURSE);
 
       return repos * (1 - adoucir(brut));
     };
 
-    let position = cible();
-    let dernier = 0;
-    let raf = 0;
-    let anime = false;
+    /**
+     * Lance la poursuite ; renvoie de quoi la démonter. L'élément est passé en
+     * paramètre plutôt que capturé : la fonction pouvant être rappelée bien plus
+     * tard, TypeScript ne peut plus y garantir qu'il existe encore.
+     */
+    function animer(noeud: HTMLDivElement) {
+      let position = cible();
+      let dernier = 0;
+      let raf = 0;
+      let anime = false;
 
-    const image = (temps: number) => {
-      const dt = dernier ? Math.min(temps - dernier, 64) : 16;
-      dernier = temps;
+      const image = (temps: number) => {
+        const dt = dernier ? Math.min(temps - dernier, 64) : 16;
+        dernier = temps;
 
-      const vise = cible();
-      // Poursuite exponentielle : indépendante de la fréquence d'affichage.
-      position += (vise - position) * (1 - Math.exp(-dt / TRAINE));
-      el.style.transform = `translate3d(${position.toFixed(2)}%, 0, 0)`;
+        const vise = cible();
+        // Poursuite exponentielle : indépendante de la fréquence d'affichage.
+        position += (vise - position) * (1 - Math.exp(-dt / TRAINE));
+        noeud.style.transform = `translate3d(${position.toFixed(2)}%, 0, 0)`;
 
-      if (Math.abs(vise - position) > 0.05) {
-        raf = requestAnimationFrame(image);
-      } else {
-        // Arrivée : on se cale exactement et on rend la main au navigateur.
-        position = vise;
-        el.style.transform = `translate3d(${position.toFixed(2)}%, 0, 0)`;
-        anime = false;
+        if (Math.abs(vise - position) > 0.05) {
+          raf = requestAnimationFrame(image);
+        } else {
+          // Arrivée : on se cale exactement et on rend la main au navigateur.
+          position = vise;
+          noeud.style.transform = `translate3d(${position.toFixed(2)}%, 0, 0)`;
+          anime = false;
+          dernier = 0;
+        }
+      };
+
+      const relancer = () => {
+        if (anime) return;
+        anime = true;
         dernier = 0;
-      }
-    };
+        raf = requestAnimationFrame(image);
+      };
 
-    const relancer = () => {
-      if (anime) return;
-      anime = true;
-      dernier = 0;
-      raf = requestAnimationFrame(image);
-    };
+      noeud.style.transform = `translate3d(${position.toFixed(2)}%, 0, 0)`;
+      window.addEventListener("scroll", relancer, { passive: true });
+      window.addEventListener("resize", relancer);
+      return () => {
+        window.removeEventListener("scroll", relancer);
+        window.removeEventListener("resize", relancer);
+        cancelAnimationFrame(raf);
+      };
+    }
 
-    el.style.transform = `translate3d(${position.toFixed(2)}%, 0, 0)`;
-    window.addEventListener("scroll", relancer, { passive: true });
-    window.addEventListener("resize", relancer);
+    installer();
+    // Le passage d'un format à l'autre — rotation du téléphone, fenêtre
+    // redimensionnée — remet le glissement en place ou l'annule.
+    refuse.addEventListener("change", installer);
+    assezLarge.addEventListener("change", installer);
     return () => {
-      window.removeEventListener("scroll", relancer);
-      window.removeEventListener("resize", relancer);
-      cancelAnimationFrame(raf);
+      arreter();
+      refuse.removeEventListener("change", installer);
+      assezLarge.removeEventListener("change", installer);
     };
-  }, [from, amplitude]);
+  }, [from, amplitude, aPartirDe]);
 
   return (
     <div

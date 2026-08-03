@@ -283,8 +283,9 @@ const Home = () => {
         <ScrollGlide
           from="left"
           amplitude={102}
+          aPartirDe={1024}
           decoratif
-          className="pointer-events-none absolute inset-y-6 left-0 w-[86%] overflow-hidden rounded-r-[2rem] border-y border-r border-luxury-gold/20 sm:w-[72%] lg:w-[58%] lg:rounded-r-[2.5rem]"
+          className="pointer-events-none absolute inset-y-6 left-0 w-[90%] overflow-hidden rounded-r-[2rem] border-y border-r border-luxury-gold/20 sm:w-[72%] lg:w-[58%] lg:rounded-r-[2.5rem]"
         >
           <Photo
             name={SERVICE_BANDE}
@@ -307,7 +308,11 @@ const Home = () => {
           <ScrollGlide
             from="left"
             amplitude={194}
-            className="order-2 text-center lg:order-1 lg:text-left"
+            aPartirDe={1024}
+            /* Sur mobile le texte est posé sur la bande : il doit rester dans
+               ses bords. Sans cette réserve à droite, titre et paragraphe la
+               dépassaient d'une trentaine de pixels et retombaient sur le noir. */
+            className="pr-[8%] text-center sm:pr-0 lg:text-left"
           >
             <Reveal>
               <p className="font-accent text-xs uppercase tracking-luxury-wide text-luxury-gold">
@@ -332,7 +337,7 @@ const Home = () => {
             </Reveal>
           </ScrollGlide>
 
-          <Reveal delay={140} className="order-1 lg:order-2">
+          <Reveal delay={140}>
             {/* Course volontairement courte : la vidéo répond à la bande sans
                 lui disputer l'attention. Les deux partagent la même horloge,
                 celle de la section — elles convergent, puis se retirent
@@ -343,6 +348,7 @@ const Home = () => {
             <ScrollGlide
               from="right"
               amplitude={26}
+              aPartirDe={1024}
               className="relative mx-auto w-full max-w-[15rem] sm:max-w-[17rem] lg:mx-0 lg:ml-auto lg:max-w-sm"
             >
               {/* Vignette débordant à gauche de la vidéo.
