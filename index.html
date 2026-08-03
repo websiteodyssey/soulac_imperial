@@ -16,12 +16,34 @@
     />
     <link rel="canonical" href="https://websiteodyssey.github.io/soulac_imperial/" />
 
-    <!-- Image LCP de l'accueil : la façade au crépuscule -->
-    <link rel="preload" as="image" href="./images/facade.webp" fetchpriority="high" />
+    <!--
+      Image LCP de l'accueil : la façade au crépuscule.
+      Le préchargement doit décrire EXACTEMENT le même jeu de sources que la
+      balise <img> rendue ensuite (voir components/Photo). Sans `imagesrcset`,
+      le navigateur précharge la grande image puis télécharge la vignette qu'il
+      finit par afficher : deux fichiers au lieu d'un, et le mauvais en priorité.
+    -->
+    <link
+      rel="preload"
+      as="image"
+      href="./images/facade.webp"
+      imagesrcset="./images/facade-sm.webp 640w, ./images/facade.webp 1400w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
 
-    <!-- Polices : préconnexion pour un affichage rapide -->
+    <!--
+      Polices : appelées ici plutôt que par un @import dans la feuille de style.
+      Déclarées dans le CSS, elles n'étaient découvertes qu'une fois celui-ci
+      téléchargé et analysé — soit trois secondes de retard sur mobile. Dans le
+      <head>, le navigateur les demande dès la lecture du document.
+    -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500&display=swap"
+    />
 
     <!-- Les réseaux sociaux n'acceptent que des URL absolues pour l'aperçu. -->
     <meta property="og:type" content="restaurant" />

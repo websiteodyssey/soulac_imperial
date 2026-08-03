@@ -270,10 +270,14 @@ const Home = () => {
           from="left"
           amplitude={102}
           decoratif
-          className="pointer-events-none absolute inset-y-6 left-0 hidden w-[58%] overflow-hidden rounded-r-[2.5rem] border-y border-r border-luxury-gold/20 lg:block"
+          className="pointer-events-none absolute inset-y-6 left-0 w-[86%] overflow-hidden rounded-r-[2rem] border-y border-r border-luxury-gold/20 sm:w-[72%] lg:w-[58%] lg:rounded-r-[2.5rem]"
         >
-          <Photo name={SERVICE_BANDE} sizes="60vw" className="h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-luxury-black/45 via-luxury-black/85 to-luxury-black" />
+          <Photo name={SERVICE_BANDE} sizes="(min-width: 1024px) 60vw, 90vw" className="h-full w-full object-cover" />
+          {/* Sur mobile le texte passe au milieu de la bande : elle est donc
+              bien plus éteinte, et un second voile vertical protège la lecture.
+              Sur grand écran le texte reste à gauche, la photo peut respirer. */}
+          <div className="absolute inset-0 bg-luxury-black/[0.88] lg:hidden" />
+          <div className="absolute inset-0 hidden bg-gradient-to-r from-luxury-black/45 via-luxury-black/85 to-luxury-black lg:block" />
         </ScrollGlide>
 
         <div className="section-padding relative z-10 mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
@@ -301,10 +305,13 @@ const Home = () => {
                 lui disputer l'attention. Les deux partagent la même horloge,
                 celle de la section — elles convergent, puis se retirent
                 chacune de son côté. */}
+            {/* Sur mobile la vidéo est bridée : en 9/16 pleine largeur, elle
+                mangeait un écran entier avant qu'on atteigne le texte, et ses
+                deux vignettes débordaient hors de l'écran, pas du cadre. */}
             <ScrollGlide
               from="right"
               amplitude={26}
-              className="relative mx-auto w-full max-w-sm lg:mx-0 lg:ml-auto"
+              className="relative mx-auto w-full max-w-[15rem] sm:max-w-[17rem] lg:mx-0 lg:ml-auto lg:max-w-sm"
             >
               {/* Photo haute, débordant à gauche de la vidéo. */}
               <div className="absolute -left-6 top-10 z-20 w-28 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:-left-14 md:w-40">

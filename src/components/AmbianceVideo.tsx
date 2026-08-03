@@ -13,10 +13,16 @@ import { VIDEO_PLATEAU } from "../config/media";
  */
 export default function AmbianceVideo({
   label,
+  vitesse = 1.5,
   className = "",
 }: {
   /** Décrit la scène pour les lecteurs d'écran. */
   label: string;
+  /**
+   * Vitesse de lecture. Le plan d'origine est lent ; l'accélérer un peu lui
+   * donne le rythme d'un service, sans que le mouvement paraisse saccadé.
+   */
+  vitesse?: number;
   className?: string;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
@@ -50,19 +56,25 @@ export default function AmbianceVideo({
     if (!el || !charge) return;
 
     if (visible) {
+      // Le navigateur remet la vitesse à 1 en changeant de source : on la
+      // repose ici, une fois la source montée.
+      el.playbackRate = vitesse;
       el.play().catch(() => {
         /* lecture refusée par le navigateur : le poster reste affiché */
       });
     } else {
       el.pause();
     }
-  }, [charge, visible]);
+  }, [charge, visible, vitesse]);
 
   return (
     <video
       ref={ref}
       className={className}
-      poster={VIDEO_PLATEAU.poster}
+      /* L'affiche est posée en même temps que la source : déclarée d'emblée,
+         elle se téléchargeait à l'ouverture de la page alors que la vidéo est
+         tout en bas — quarante kilo-octets pris sur le premier affichage. */
+      poster={charge ? VIDEO_PLATEAU.poster : undefined}
       preload="none"
       autoPlay
       muted
