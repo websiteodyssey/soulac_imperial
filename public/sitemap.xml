@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Le site utilise une navigation par fragment (#/la-carte, #/contact…).
+  Les moteurs de recherche n'indexent pas les fragments comme des pages
+  distinctes : une seule URL est donc déclarée ici, celle du site.
+  Pour obtenir une page indexable par rubrique, il faudrait passer aux
+  vraies URL (/la-carte) — voir la note laissée dans le README.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://websiteodyssey.github.io/soulac_imperial/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

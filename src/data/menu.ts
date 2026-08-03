@@ -131,7 +131,7 @@ export const MENU: MenuCategory[] = [
         id: "e9",
         name: { fr: "Salade de Calamar Japonaise" },
         desc: { fr: "Calamars cuits, assaisonnés." },
-        price: 7.5,
+        price: 9.5,
       },
       {
         id: "e10",
@@ -171,6 +171,12 @@ export const MENU: MenuCategory[] = [
         name: { fr: "Tentacule à l'Huile d'Olive" },
         desc: { fr: "" },
         price: 9.5,
+      },
+      {
+        id: "e16",
+        name: { fr: "Brioche au Porc", en: "Pork Bun" },
+        desc: { fr: "4 pièces.", en: "4 pieces." },
+        price: 5.9,
       },
     ],
   },
@@ -259,7 +265,7 @@ export const MENU: MenuCategory[] = [
         id: "nr1",
         name: { fr: "Légumes Sautés au Wok" },
         desc: { fr: "" },
-        price: 7.0,
+        price: 8.0,
         tags: ["veggie"],
       },
       {
@@ -324,6 +330,41 @@ export const MENU: MenuCategory[] = [
         name: { fr: "Daifuku Thé Matcha" },
         desc: { fr: "" },
         price: 4.5,
+        tags: ["veggie"],
+      },
+      {
+        id: "de8",
+        name: { fr: "Daifuku Litchi", en: "Lychee Daifuku" },
+        desc: { fr: "" },
+        price: 4.5,
+        tags: ["veggie"],
+      },
+      {
+        id: "de9",
+        name: { fr: "Daifuku Fruit de la Passion", en: "Passion Fruit Daifuku" },
+        desc: { fr: "" },
+        price: 4.5,
+        tags: ["veggie"],
+      },
+      {
+        id: "de10",
+        name: { fr: "Daifuku Sésame", en: "Sesame Daifuku" },
+        desc: { fr: "" },
+        price: 4.5,
+        tags: ["veggie"],
+      },
+      {
+        id: "de11",
+        name: { fr: "Beignet de Pomme", en: "Apple Fritters" },
+        desc: { fr: "2 pièces.", en: "2 pieces." },
+        price: 5.5,
+        tags: ["veggie"],
+      },
+      {
+        id: "de12",
+        name: { fr: "Beignet de Banane", en: "Banana Fritters" },
+        desc: { fr: "2 pièces.", en: "2 pieces." },
+        price: 5.5,
         tags: ["veggie"],
       },
       {
@@ -394,7 +435,7 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "1 pièce. Huître, crevette rouge, wasabi râpé, tranches de truffe, sauce ponzu, œufs de lump, zeste de citron vert. (Allergènes n° 14, 2, 1, 6, 4)",
         },
-        price: 5.0,
+        price: 7.5,
         tags: ["signature"],
       },
       {
@@ -403,7 +444,7 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "4 pièces. Thon flambé, sauce yuzu-wasabi, granulé de tempura, togarashi, wasabi râpé, sésame noir. (Allergènes n° 4, 1, 6, 8, 11)",
         },
-        price: 8.0,
+        price: 10.0,
       },
       {
         id: "cr3",
@@ -411,13 +452,13 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "Riz à sushi, eel sauce, carpaccio de saumon flambé, sauce sésame, œuf pasteurisé basse température, ciboulette, tobiko. (Allergènes n° 4, 1, 6, 3, 7)",
         },
-        price: 10.0,
+        price: 14.5,
       },
       {
         id: "s1",
         name: { fr: "S1 · Sashimi Salmone" },
-        desc: { fr: "5 pièces. Sashimi de saumon. (Allergène n° 4)" },
-        price: 6.0,
+        desc: { fr: "4 pièces. Sashimi de saumon. (Allergène n° 4)" },
+        price: 8.0,
       },
       {
         id: "s2",
@@ -425,19 +466,19 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "10 pièces. Assortiment de sashimi omakase du chef. (Allergènes n° 4, 2)",
         },
-        price: 14.0,
+        price: 23.0,
       },
       {
         id: "s3",
         name: { fr: "S3 · Sashimi Thon" },
-        desc: { fr: "5 pièces. Sashimi de thon. (Allergène n° 4)" },
-        price: 7.0,
+        desc: { fr: "4 pièces. Sashimi de thon. (Allergène n° 4)" },
+        price: 9.5,
       },
       {
         id: "s4",
         name: { fr: "S4 · Sashimi Bar" },
-        desc: { fr: "5 pièces. Sashimi de bar." },
-        price: 5.0,
+        desc: { fr: "4 pièces. Sashimi de bar." },
+        price: 9.5,
       },
       {
         id: "ca1",
@@ -453,7 +494,7 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "9 pièces. Carpaccio de sériole d'Amérique, tranches de truffe, œufs de truite marinés, sauce yuzu-miso, zeste de citron vert. (Allergènes n° 4, 6, 1)",
         },
-        price: 14.0,
+        price: 15.5,
       },
       {
         id: "t1",
@@ -461,7 +502,7 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "Saumon, burrata, mangue, sauce yuzu-miso, zeste de citron vert, mousse de citron vert. Il est recommandé de mélanger tous les ingrédients avant le service. (Allergènes n° 3, 7, 4, 10)",
         },
-        price: 10.0,
+        price: 14.0,
       },
       {
         id: "t2",
@@ -469,7 +510,7 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "Tartare de crevette rouge de Mazara, burrata, mangue, ponzu, persil. Il est recommandé de mélanger tous les ingrédients avant le service. (Allergènes n° 2, 6, 1, 3, 7)",
         },
-        price: 12.0,
+        price: 22.0,
       },
       {
         id: "t3",
@@ -477,25 +518,32 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "Bœuf mariné style japonais, burrata, œufs de caille, yuzu-wasabi. Il est recommandé de mélanger tous les ingrédients avant le service. (Allergènes n° 3, 7, 1, 6)",
         },
-        price: 12.0,
+        price: 13.5,
       },
       {
         id: "n2",
         name: { fr: "N2 · Nigiri Salmon" },
         desc: { fr: "2 pièces. (Allergène n° 4)" },
-        price: 3.0,
+        price: 4.0,
       },
       {
         id: "n3",
         name: { fr: "N3 · Nigiri Tuna" },
         desc: { fr: "2 pièces. (Allergène n° 4)" },
-        price: 4.0,
+        price: 5.0,
       },
       {
         id: "n4",
         name: { fr: "N4 · Nigiri Suzuki" },
         desc: { fr: "2 pièces. (Allergène n° 4)" },
-        price: 3.0,
+        price: 5.0,
+      },
+      {
+        id: "n5",
+        name: { fr: "N5 · Nigiri Wagyu Aburi", en: "N5 · Wagyu Aburi Nigiri" },
+        desc: { fr: "2 pièces. Wagyu saisi au chalumeau.", en: "2 pieces. Torch-seared wagyu." },
+        price: 15.0,
+        tags: ["signature"],
       },
       {
         id: "bi1",
@@ -503,7 +551,7 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "2 pièces. Saumon, saumon épicé, flambé, sauce sésame. (Allergènes n° 4, 3, 7, 1, 6, 8, 11)",
         },
-        price: 6.0,
+        price: 7.0,
       },
       {
         id: "bi2",
@@ -511,19 +559,19 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "2 pièces. Saumon, sauce flambée, fromage. (Allergènes n° 4, 3, 7)",
         },
-        price: 5.0,
+        price: 6.0,
       },
       {
         id: "h1",
         name: { fr: "H1 · Hosomaki Salmon" },
         desc: { fr: "6 pièces. Saumon. (Allergène n° 4)" },
-        price: 4.0,
+        price: 5.5,
       },
       {
         id: "h2",
         name: { fr: "H2 · Hosomaki Avocado" },
         desc: { fr: "6 pièces. Avocat." },
-        price: 3.0,
+        price: 4.5,
         tags: ["veggie"],
       },
       {
@@ -532,7 +580,7 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "4 pièces. Saumon, avocat, sésame. (Allergènes n° 4, 11)",
         },
-        price: 5.0,
+        price: 5.5,
       },
       {
         id: "up03",
@@ -540,7 +588,7 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "4 pièces. Saumon, fromage Philadelphia, sésame. (Allergènes n° 4, 3, 7, 11)",
         },
-        price: 5.0,
+        price: 5.5,
       },
       {
         id: "uc07",
@@ -548,7 +596,7 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "4 pièces. Concombre, mangue, avocat, sauce sésame, oignons frits. (Allergènes n° 1, 6, 11)",
         },
-        price: 3.0,
+        price: 5.0,
         tags: ["veggie"],
       },
       {
@@ -557,7 +605,7 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "4 pièces. Crevette tempura, eel sauce, kataifi. (Allergènes n° 2, 3, 7, 1, 6, 11)",
         },
-        price: 4.0,
+        price: 5.5,
       },
       {
         id: "ug16",
@@ -565,7 +613,7 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "4 pièces. Crevette tempura, carpaccio de saumon, eel sauce, kataifi. (Allergènes n° 2, 3, 7, 4, 1, 6, 11)",
         },
-        price: 5.5,
+        price: 6.5,
         tags: ["signature"],
       },
       {
@@ -583,7 +631,7 @@ export const MENU: MenuCategory[] = [
         desc: {
           fr: "4 pièces. Surimi, mayonnaise, crevette cuite, tobiko. (Allergènes n° 1, 2, 3, 7, 4, 11)",
         },
-        price: 4.5,
+        price: 6.5,
       },
     ],
   },

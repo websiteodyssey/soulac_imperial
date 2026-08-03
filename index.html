@@ -12,8 +12,9 @@
     <title>Soulac Impérial — Cuisine chinoise & japonaise à Soulac-sur-Mer</title>
     <meta
       name="description"
-      content="Soulac Impérial, table chinoise et japonaise à Soulac-sur-Mer : sushis, dim sum, woks et grillades, dans une salle aux fresques à l'encre, à cinq minutes de l'océan."
+      content="Soulac Impérial, table chinoise et japonaise à Soulac-sur-Mer : sushis taillés minute, bouchées vapeur et woks, dans une salle aux fresques à l'encre, à cinq minutes de l'océan. Ouvert 7j/7, midi et soir."
     />
+    <link rel="canonical" href="https://websiteodyssey.github.io/soulac_imperial/" />
 
     <!-- Image LCP de l'accueil : la façade au crépuscule -->
     <link rel="preload" as="image" href="./images/facade.webp" fetchpriority="high" />
@@ -22,24 +23,45 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    <!-- Les réseaux sociaux n'acceptent que des URL absolues pour l'aperçu. -->
     <meta property="og:type" content="restaurant" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:locale:alternate" content="en_GB" />
     <meta property="og:site_name" content="Soulac Impérial" />
+    <meta property="og:url" content="https://websiteodyssey.github.io/soulac_imperial/" />
     <meta property="og:title" content="Soulac Impérial — Cuisine chinoise & japonaise à Soulac-sur-Mer" />
     <meta
       property="og:description"
-      content="L'Orient s'invite face à l'Atlantique. Sushis, dim sum, woks et grillades à Soulac-sur-Mer."
+      content="L'Orient s'invite face à l'Atlantique. Sushis, bouchées vapeur et woks à Soulac-sur-Mer, à cinq minutes de la plage."
     />
-    <meta property="og:image" content="./images/facade.webp" />
+    <meta
+      property="og:image"
+      content="https://websiteodyssey.github.io/soulac_imperial/images/facade.webp"
+    />
+    <meta property="og:image:alt" content="La façade du Soulac Impérial au crépuscule" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Soulac Impérial — Cuisine chinoise & japonaise à Soulac-sur-Mer" />
+    <meta
+      name="twitter:description"
+      content="L'Orient s'invite face à l'Atlantique. Sushis, bouchées vapeur et woks à Soulac-sur-Mer, à cinq minutes de la plage."
+    />
+    <meta
+      name="twitter:image"
+      content="https://websiteodyssey.github.io/soulac_imperial/images/facade.webp"
+    />
 
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Restaurant",
         "name": "Soulac Impérial",
+        "url": "https://websiteodyssey.github.io/soulac_imperial/",
+        "image": "https://websiteodyssey.github.io/soulac_imperial/images/facade.webp",
         "servesCuisine": ["Chinoise", "Japonaise", "Sushi"],
         "priceRange": "€€",
         "email": "contact@soulacimperial.fr",
+        "telephone": "+33953578888",
+        "hasMenu": "https://websiteodyssey.github.io/soulac_imperial/#/la-carte",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "1 Rue el Burgo de Osma",
@@ -51,15 +73,31 @@
         "openingHoursSpecification": [
           {
             "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
             "opens": "12:00",
-            "closes": "14:30"
+            "closes": "15:00"
           },
           {
             "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
             "opens": "19:00",
-            "closes": "22:00"
+            "closes": "23:00"
           }
         ],
         "sameAs": [

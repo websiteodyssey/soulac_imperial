@@ -61,7 +61,6 @@ export const media = {
   vapeur: p("table/vapeur", 1200, 800),
   wok: p("table/wok", 1200, 681),
   canard: p("table/canard", 1000, 1500),
-  yakitori: p("table/yakitori", 1000, 1500),
   planche: p("table/planche", 1200, 800),
   plateau: p("table/plateau", 1200, 960),
   ramen: p("table/ramen", 1000, 1500),
@@ -80,7 +79,6 @@ export const media = {
   mainsChef: p("univers/mains-chef", 1500, 1125),
   lanternes: p("univers/lanternes", 1500, 1000),
   sashimi: p("univers/sashimi", 1500, 2250),
-  brochettes: p("univers/brochettes", 1500, 2250),
   carteSushi: p("univers/carte-sushi", 1500, 1000),
   carteMaki: p("univers/carte-maki", 1500, 2258),
   carteDimsum: p("univers/carte-dimsum", 1500, 1212),
@@ -88,7 +86,36 @@ export const media = {
   carteGrill: p("univers/carte-grill", 1500, 1876),
   carteSoupe: p("univers/carte-soupe", 1500, 2250),
   dessertDresse: p("univers/dessert-dresse", 1500, 2250),
+
+  // ── Photographies du restaurant (série fournie par la maison) ──
+  // Prises en salle, elles montrent les vrais dressages. Elles ne sont
+  // utilisées que là où aucun nom de plat n'est affiché : bandeaux de
+  // catégorie, galerie, blocs éditoriaux.
+  assortimentSushi: p("table/assortiment-sushi", 1125, 1500),
+  tartareGambero: p("table/tartare-gambero", 1500, 1125),
+  sashimiThon: p("table/sashimi-thon", 1500, 1125),
+  tatakiThon: p("table/tataki-thon", 1500, 1125),
+  plateauGlace: p("table/plateau-glace", 1125, 1500),
+  cuilleresSaumon: p("table/cuilleres-saumon", 1500, 1125),
+  carpaccioBoeuf: p("table/carpaccio-boeuf", 1500, 1125),
+  plateauMixte: p("table/plateau-mixte", 1125, 1500),
+  saumonBraise: p("table/saumon-braise", 1500, 1125),
+  boeufPoele: p("table/boeuf-poele", 1500, 1251),
+  plateauFumee: p("table/plateau-fumee", 1125, 1500),
+  vapeurSiumai: p("table/vapeur-siumai", 1125, 1500),
+  vapeurHakao: p("table/vapeur-hakao", 1125, 1500),
+  tempuraCrevettes: p("table/tempura-crevettes", 1125, 1500),
 } as const;
+
+/**
+ * Vidéo d'ambiance (plateau servi en salle, fumée de glace). Muette et
+ * décorative : 6 s, H.264 960 px, `faststart` pour démarrer sans attendre
+ * la fin du téléchargement.
+ */
+export const VIDEO_PLATEAU = {
+  mp4: `${BASE}video/plateau.mp4`,
+  poster: `${BASE}video/plateau-poster.webp`,
+};
 
 export type MediaKey = {
   [K in keyof typeof media]: (typeof media)[K] extends Photo ? K : never;
@@ -104,19 +131,21 @@ export const photo = (key: MediaKey): Photo => media[key] as Photo;
 /** Accueil — ouverture : façade puis vue large de la salle. */
 export const HERO_SLIDES: MediaKey[] = ["facade", "salleLarge"];
 
-/** Accueil — le duo de « la maison » (bloc éditorial). */
-export const MAISON_DUO: MediaKey[] = ["mainsChef", "coinTorii"];
+/**
+ * Accueil — le trio de « la maison » (bloc éditorial) : le geste, la salle,
+ * l'assiette. Les trois vignettes sont petites : elles demandent des photos
+ * prises de face, avec une profondeur et un haut évidents. Une vue plongeante
+ * y devient illisible — elle a mieux sa place en grand, dans la galerie.
+ */
+export const MAISON_DUO: MediaKey[] = ["mainsChef", "coinTorii", "plateauGlace"];
 
 /** Accueil — bandeau défilant : les 12 photos de plats, une fois chacune. */
 export const SPECIALITES: MediaKey[] = [
   "sushi",
   "rouleaux",
   "dimsum",
-  "vapeur",
   "wok",
   "canard",
-  "yakitori",
-  "planche",
   "plateau",
   "ramen",
   "epices",
@@ -132,7 +161,6 @@ export const FAMILLES_PHOTOS: MediaKey[] = [
   "carteMaki",
   "carteDimsum",
   "carteWok",
-  "brochettes",
   "dessertDresse",
 ];
 
@@ -156,17 +184,34 @@ export const GALERIE_SALLE: MediaKey[] = [
   "intime",
 ];
 
-/** Galerie — les plats. */
-export const GALERIE_TABLE: MediaKey[] = SPECIALITES;
+/**
+ * Galerie — les plats, tous photographiés dans la maison. Aucun de ces
+ * clichés ne sert ailleurs : la galerie ne redit pas ce que l'accueil montre.
+ */
+export const GALERIE_TABLE: MediaKey[] = [
+  "tartareGambero",
+  "sashimiThon",
+  "assortimentSushi",
+  "cuilleresSaumon",
+  "carpaccioBoeuf",
+  "plateauMixte",
+  "saumonBraise",
+  "vapeurSiumai",
+  "vapeurHakao",
+];
 
-/** La Carte — une photo par catégorie, dans l'ordre de `MENU` (data/menu). */
+/**
+ * La Carte — une photo par catégorie, dans l'ordre de `MENU` (data/menu).
+ * Chaque bandeau porte le nom de la CATÉGORIE, jamais celui d'un plat : on y
+ * place donc les photographies de la maison sans avoir à les nommer.
+ */
 export const CARTE_PHOTOS: Record<string, MediaKey> = {
-  formules: "plateau",
-  entrees: "carteSoupe",
-  plats: "carteWok",
+  formules: "plateauFumee",
+  entrees: "tempuraCrevettes",
+  plats: "boeufPoele",
   "nouilles-riz": "epices",
   desserts: "dessertDresse",
   glaces: "dessert",
-  creations: "sashimi",
+  creations: "tatakiThon",
   boissons: "sake",
 };

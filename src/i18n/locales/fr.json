@@ -1,4 +1,34 @@
 {
+  "seo": {
+    "home": {
+      "title": "Soulac Impérial — Restaurant chinois & japonais à Soulac-sur-Mer",
+      "description": "Table chinoise et japonaise à Soulac-sur-Mer : sushis taillés minute, bouchées vapeur et woks, dans une salle aux fresques à l'encre. Ouvert 7j/7, midi et soir."
+    },
+    "about": {
+      "title": "La Maison — Soulac Impérial, Soulac-sur-Mer",
+      "description": "Deux cuisines, une même table : le comptoir à sushi et le wok travaillent côte à côte, à cinq minutes de la plage de Soulac-sur-Mer."
+    },
+    "menu": {
+      "title": "La Carte — Soulac Impérial, restaurant à Soulac-sur-Mer",
+      "description": "Formules, entrées, sushis, makis, bouchées vapeur, woks, nouilles et desserts. Carte servie midi et soir, prix en euros, service compris."
+    },
+    "gallery": {
+      "title": "Galerie — Soulac Impérial, Soulac-sur-Mer",
+      "description": "La salle aux fresques d'encre, les velours ocre et les tables dressées du Soulac Impérial en images."
+    },
+    "contact": {
+      "title": "Contact & horaires — Soulac Impérial, Soulac-sur-Mer",
+      "description": "1 Rue el Burgo de Osma, 33780 Soulac-sur-Mer. Ouvert 7j/7, déjeuner 12h-15h et dîner 19h-23h. Téléphone 09 53 57 88 88."
+    },
+    "legal": {
+      "title": "Mentions légales — Soulac Impérial",
+      "description": "Informations réglementaires du site du restaurant Soulac Impérial à Soulac-sur-Mer."
+    },
+    "privacy": {
+      "title": "Confidentialité — Soulac Impérial",
+      "description": "Site vitrine sans formulaire ni traceur : aucune donnée personnelle n'est collectée."
+    }
+  },
   "common": {
     "nav": {
       "home": "Accueil",
@@ -33,31 +63,26 @@
     "stat4": "de la plage",
     "specialtiesEyebrow": "La table",
     "specialtiesTitle": "Nos spécialités",
-    "specialtiesSubtitle": "Sushis taillés à la commande, dim sum pliés à la main, woks saisis à feu vif.",
+    "specialtiesSubtitle": "Sushis taillés à la commande, bouchées vapeur pliées à la main, woks saisis à feu vif.",
     "specialtiesAlt": "spécialité du Soulac Impérial",
     "specialtiesCta": "Découvrir la carte",
-    "signaturesEyebrow": "Les incontournables",
-    "signaturesTitle": "Quatre signatures",
-    "signaturesSubtitle": "Ce que l'on commande sans hésiter.",
     "ambianceEyebrow": "L'atmosphère",
     "ambianceTitle": "Une salle aux fresques d'encre",
     "ambianceSubtitle": "Velours ocre, appliques ambrées, miroirs dorés.",
     "ambianceCta": "Voir la galerie",
     "universesEyebrow": "Notre cuisine",
-    "universesTitle": "Six façons de commencer",
-    "universesSubtitle": "Six familles de plats, six gestes.",
+    "universesTitle": "Cinq façons de commencer",
+    "universesSubtitle": "Cinq familles de plats, cinq gestes.",
     "universe1Title": "Sushi & Sashimi",
     "universe1Text": "Poisson taillé à la commande, riz vinaigré tiède.",
     "universe2Title": "Makis & Rolls",
     "universe2Text": "Roulés à la natte, tranchés au dernier moment.",
-    "universe3Title": "Dim Sum",
+    "universe3Title": "Vapeur",
     "universe3Text": "Pliés à la main, cuits à la vapeur de bambou.",
     "universe4Title": "Woks & Plats",
     "universe4Text": "Saisis à feu vif, croquants et parfumés.",
-    "universe5Title": "Yakitori & Grillades",
-    "universe5Text": "Passés à la braise, laqués au soja et au mirin.",
-    "universe6Title": "Desserts",
-    "universe6Text": "Mochis glacés, perles de coco, sésame noir.",
+    "universe5Title": "Desserts",
+    "universe5Text": "Mochis glacés, perles de coco, sésame noir.",
     "universesCardTitle": "Toute la carte, catégorie par catégorie",
     "storyEyebrow": "La maison",
     "storyTitle": "Deux cuisines, une même table",
@@ -65,7 +90,7 @@
     "storyCta": "Découvrir la maison",
     "ctaTitleA": "Votre table",
     "ctaTitleB": "vous attend",
-    "ctaText": "Midi et soir, du mercredi au lundi.",
+    "ctaText": "Midi et soir, 7 jours sur 7.",
     "ctaButton": "Réserver une table",
     "scrollCue": "Découvrir",
     "maisonEyebrow": "La maison",
@@ -75,13 +100,12 @@
     "point1Title": "Taillé minute",
     "point1Text": "Le poisson est travaillé à la commande.",
     "point2Title": "Plié à la main",
-    "point2Text": "Dim sum façonnés chaque matin en cuisine.",
+    "point2Text": "Bouchées vapeur façonnées chaque matin en cuisine.",
     "point3Title": "Face à l'Atlantique",
     "point3Text": "À cinq minutes de la plage.",
     "famillesEyebrow": "La carte",
     "famillesTitle": "Six familles, un même soin",
     "famillesSubtitle": "De la bouchée vapeur au poisson cru, chaque famille a son geste et son moment.",
-    "signaturesLead": "Quatre plats qui résument la maison.",
     "ambianceLead": "Poussez la porte : la lumière du soir se pose sur les fresques et le repas commence."
   },
   "about": {
@@ -95,7 +119,7 @@
     "philosophyText1": "Le poisson est travaillé à la commande, les bouillons partent le matin, les raviolis sont pliés à la main.",
     "value1": "Poisson travaillé du jour",
     "value2": "Bouillons et sauces maison",
-    "value3": "Dim sum pliés à la main",
+    "value3": "Bouchées vapeur pliées à la main",
     "value4": "À cinq minutes de la plage",
     "teamTitle": "L'équipe",
     "teamText1": "Un chef sushi au comptoir, un chef wok en cuisine, une salle qui connaît la carte par cœur.",
@@ -155,7 +179,11 @@
     "hoursDays": "Tous les jours sauf le {{day}}",
     "hoursOpenDaily": "Ouvert 7 jours sur 7",
     "followTitle": "Nous suivre",
-    "mapCta": "Ouvrir dans Google Maps"
+    "mapCta": "Ouvrir dans Google Maps",
+    "videoEyebrow": "En salle",
+    "videoTitle": "Le service, en mouvement",
+    "videoText": "Les plateaux partent de la cuisine et traversent la salle sous la fresque. Quelques secondes filmées chez nous, un midi ordinaire.",
+    "videoAlt": "Un plateau servi en salle au Soulac Impérial"
   },
   "legal": {
     "heroTitle": "Mentions légales",

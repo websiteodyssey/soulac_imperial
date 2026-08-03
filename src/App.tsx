@@ -1,5 +1,6 @@
 import { HashRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
+import DocumentHead from "./components/DocumentHead";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
@@ -60,6 +61,7 @@ const App = () => (
   // HashRouter : le site est déployé sur GitHub Pages, sans réécriture d'URL
   // côté serveur — un rechargement sur /la-carte renverrait sinon une 404.
   <HashRouter>
+    <DocumentHead />
     <Loader />
     <CustomCursor />
     <ScrollProgress />

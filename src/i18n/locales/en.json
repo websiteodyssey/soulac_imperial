@@ -1,4 +1,34 @@
 {
+  "seo": {
+    "home": {
+      "title": "Soulac Impérial — Chinese & Japanese restaurant in Soulac-sur-Mer",
+      "description": "Chinese and Japanese cooking in Soulac-sur-Mer: sushi cut to order, hand-folded steamed parcels and wok dishes, in a room of ink frescoes. Open 7 days a week, lunch and dinner."
+    },
+    "about": {
+      "title": "The House — Soulac Impérial, Soulac-sur-Mer",
+      "description": "Two cuisines, one table: the sushi counter and the wok work side by side, five minutes from the beach at Soulac-sur-Mer."
+    },
+    "menu": {
+      "title": "The Menu — Soulac Impérial, Soulac-sur-Mer",
+      "description": "Set menus, starters, sushi, maki, steamed parcels, wok dishes, noodles and desserts. Served at lunch and dinner, prices in euros, service included."
+    },
+    "gallery": {
+      "title": "Gallery — Soulac Impérial, Soulac-sur-Mer",
+      "description": "The ink-fresco dining room, the ochre velvet and the laid tables of Soulac Impérial in pictures."
+    },
+    "contact": {
+      "title": "Contact & opening hours — Soulac Impérial, Soulac-sur-Mer",
+      "description": "1 Rue el Burgo de Osma, 33780 Soulac-sur-Mer. Open 7 days a week, lunch 12pm-3pm and dinner 7pm-11pm. Phone +33 9 53 57 88 88."
+    },
+    "legal": {
+      "title": "Legal notice — Soulac Impérial",
+      "description": "Regulatory information for the website of Soulac Impérial restaurant in Soulac-sur-Mer."
+    },
+    "privacy": {
+      "title": "Privacy — Soulac Impérial",
+      "description": "A showcase site with no forms and no trackers: no personal data is collected."
+    }
+  },
   "common": {
     "nav": {
       "home": "Home",
@@ -33,31 +63,26 @@
     "stat4": "to the beach",
     "specialtiesEyebrow": "The table",
     "specialtiesTitle": "Our specialities",
-    "specialtiesSubtitle": "Sushi cut to order, hand-folded dim sum, wok dishes seared over a fierce flame.",
+    "specialtiesSubtitle": "Sushi cut to order, hand-folded steamed parcels, wok dishes seared over a fierce flame.",
     "specialtiesAlt": "Soulac Impérial speciality",
     "specialtiesCta": "Explore the menu",
-    "signaturesEyebrow": "The essentials",
-    "signaturesTitle": "Four signatures",
-    "signaturesSubtitle": "What people order without hesitating.",
     "ambianceEyebrow": "The room",
     "ambianceTitle": "A dining room of ink frescoes",
     "ambianceSubtitle": "Ochre velvet, amber sconces, gilded mirrors.",
     "ambianceCta": "See the gallery",
     "universesEyebrow": "Our cooking",
-    "universesTitle": "Six ways to begin",
-    "universesSubtitle": "Six families of dishes, six gestures.",
+    "universesTitle": "Five ways to begin",
+    "universesSubtitle": "Five families of dishes, five gestures.",
     "universe1Title": "Sushi & Sashimi",
     "universe1Text": "Fish cut to order, warm vinegared rice.",
     "universe2Title": "Maki & Rolls",
     "universe2Text": "Rolled on the mat, sliced at the last moment.",
-    "universe3Title": "Dim Sum",
+    "universe3Title": "Steamed",
     "universe3Text": "Folded by hand, steamed in bamboo.",
     "universe4Title": "Wok & Mains",
     "universe4Text": "Seared over a fierce flame, crisp and fragrant.",
-    "universe5Title": "Yakitori & Grill",
-    "universe5Text": "Charcoal-grilled, glazed with soy and mirin.",
-    "universe6Title": "Desserts",
-    "universe6Text": "Ice-cream mochi, coconut pearls, black sesame.",
+    "universe5Title": "Desserts",
+    "universe5Text": "Ice-cream mochi, coconut pearls, black sesame.",
     "universesCardTitle": "The full menu, course by course",
     "storyEyebrow": "The house",
     "storyTitle": "Two cuisines, one table",
@@ -65,7 +90,7 @@
     "storyCta": "Discover the house",
     "ctaTitleA": "Your table",
     "ctaTitleB": "is waiting",
-    "ctaText": "Lunch and dinner, Wednesday to Monday.",
+    "ctaText": "Lunch and dinner, seven days a week.",
     "ctaButton": "Book a table",
     "scrollCue": "Scroll",
     "maisonEyebrow": "The house",
@@ -75,13 +100,12 @@
     "point1Title": "Cut to order",
     "point1Text": "Fish is worked to order.",
     "point2Title": "Folded by hand",
-    "point2Text": "Dim sum shaped in the kitchen each morning.",
+    "point2Text": "Steamed parcels shaped in the kitchen each morning.",
     "point3Title": "Facing the Atlantic",
     "point3Text": "Five minutes from the beach.",
     "famillesEyebrow": "The menu",
     "famillesTitle": "Six families, one standard",
     "famillesSubtitle": "From steamed parcels to raw fish, each family has its gesture and its moment.",
-    "signaturesLead": "Four dishes that sum up the house.",
     "ambianceLead": "Step inside: evening light settles on the frescoes and the meal begins."
   },
   "about": {
@@ -95,7 +119,7 @@
     "philosophyText1": "Fish is worked to order, broths start in the morning, dumplings are folded by hand.",
     "value1": "Fish worked the same day",
     "value2": "House broths and sauces",
-    "value3": "Hand-folded dim sum",
+    "value3": "Hand-folded steamed parcels",
     "value4": "Five minutes from the beach",
     "teamTitle": "The team",
     "teamText1": "A sushi chef at the counter, a wok chef in the kitchen, a floor team that knows the menu by heart.",
@@ -155,7 +179,11 @@
     "hoursDays": "Every day except {{day}}",
     "hoursOpenDaily": "Open 7 days a week",
     "followTitle": "Follow us",
-    "mapCta": "Open in Google Maps"
+    "mapCta": "Open in Google Maps",
+    "videoEyebrow": "In the room",
+    "videoTitle": "Service, in motion",
+    "videoText": "Platters leave the kitchen and cross the room beneath the fresco. A few seconds filmed here, on an ordinary lunchtime.",
+    "videoAlt": "A platter served in the dining room at Soulac Impérial"
   },
   "legal": {
     "heroTitle": "Legal notice",

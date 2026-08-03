@@ -15,14 +15,12 @@ import InstagramIcon from "../components/InstagramIcon";
 import FacebookIcon from "../components/FacebookIcon";
 import Photo from "../components/Photo";
 import { siteConfig } from "../config/siteConfig";
-import { MOSAIQUE, MAISON_DUO, SIGNATURES_PHOTOS, FAMILLES_PHOTOS } from "../config/media";
-import { SIGNATURES, findItem } from "../data/menu";
+import { MOSAIQUE, MAISON_DUO, FAMILLES_PHOTOS } from "../config/media";
 
 const Home = () => {
-  const { t, i18n } = useTranslation();
-  const lang = i18n.language.startsWith("en") ? "en" : "fr";
+  const { t } = useTranslation();
 
-  const familles = [1, 2, 3, 4, 5, 6].map((n, i) => ({
+  const familles = [1, 2, 3, 4, 5].map((n, i) => ({
     photo: FAMILLES_PHOTOS[i],
     title: t(`home.universe${n}Title`),
     text: t(`home.universe${n}Text`),
@@ -31,7 +29,7 @@ const Home = () => {
   const stats = [
     { value: "2", label: t("home.stat1") },
     { value: "100%", label: t("home.stat2") },
-    { value: "6", label: t("home.stat3") },
+    { value: "7", label: t("home.stat3") },
     { value: "5 min", label: t("home.stat4") },
   ];
 
@@ -39,16 +37,6 @@ const Home = () => {
     title: t(`home.point${n}Title`),
     text: t(`home.point${n}Text`),
   }));
-
-  const signatures = SIGNATURES.map(findItem)
-    .filter((d) => d !== undefined)
-    .map((dish, i) => ({ dish, photo: SIGNATURES_PHOTOS[i] }));
-
-  const prix = (p: number) =>
-    new Intl.NumberFormat(lang === "en" ? "en-GB" : "fr-FR", {
-      style: "currency",
-      currency: "EUR",
-    }).format(p);
 
   const socials = [
     { url: siteConfig.social.instagram, label: "Instagram", Icon: InstagramIcon },
@@ -168,7 +156,8 @@ const Home = () => {
       {/* ═══════════════════════ LA MAISON (éditorial) ═══════════════════════ */}
       <section className="relative overflow-hidden py-10 grain md:py-20">
         <div className="section-padding relative z-10 mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          {/* Deux photos décalées : la composition remplit la colonne */}
+          {/* Trois photos décalées — le geste, la salle, l'assiette : la
+              composition remplit la colonne sans jamais nommer un plat. */}
           <Reveal className="relative">
             <div className="relative overflow-hidden rounded-lg border border-luxury-gold/20">
               <Photo
@@ -177,12 +166,21 @@ const Home = () => {
                 className="h-52 w-full object-cover md:h-[22rem]"
               />
             </div>
-            <div className="relative -mt-14 ml-auto w-2/3 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:-mt-20 md:w-3/5">
-              <Photo
-                name={MAISON_DUO[1]}
-                sizes="(min-width: 1024px) 18rem, 60vw"
-                className="h-28 w-full object-cover md:h-56"
-              />
+            <div className="relative -mt-14 flex items-end gap-3 md:-mt-20 md:gap-4">
+              <div className="ml-auto w-1/2 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:w-[46%]">
+                <Photo
+                  name={MAISON_DUO[1]}
+                  sizes="(min-width: 1024px) 15rem, 45vw"
+                  className="h-28 w-full object-cover md:h-56"
+                />
+              </div>
+              <div className="w-1/3 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:w-[34%]">
+                <Photo
+                  name={MAISON_DUO[2]}
+                  sizes="(min-width: 1024px) 11rem, 33vw"
+                  className="h-24 w-full object-cover md:h-44"
+                />
+              </div>
             </div>
             <span
               className="pointer-events-none absolute -left-3 -top-3 h-16 w-16 border-l border-t border-luxury-gold/50"
@@ -247,55 +245,6 @@ const Home = () => {
         </Reveal>
         <div className="mt-8 text-center">
           <TextMarquee items={familles.map((f) => f.title)} speed={40} />
-        </div>
-      </section>
-
-      {/* ═══════════════════════ SIGNATURES ═══════════════════════ */}
-      <section className="relative overflow-hidden py-10 grain emerald-wash md:py-20">
-        <ParallaxBg name="braise" className="opacity-[0.14]" />
-        <div className="section-padding relative z-10">
-          <Reveal className="mx-auto mb-7 max-w-2xl md:mb-10">
-            <SectionHeading
-              tone="dark"
-              eyebrow={t("home.signaturesEyebrow")}
-              title={t("home.signaturesTitle")}
-              subtitle={t("home.signaturesLead")}
-            />
-          </Reveal>
-
-          <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
-            {signatures.map(({ dish, photo }, i) => (
-              <Reveal
-                key={dish.id}
-                delay={(i % 4) * 90}
-                className="group flex flex-col overflow-hidden rounded-xl border border-luxury-gold/20 bg-luxury-ink/60 transition-colors duration-500 hover:border-luxury-gold/60"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <Photo
-                    name={photo}
-                    alt={dish.name[lang] ?? dish.name.fr}
-                    sizes="(min-width: 1024px) 20rem, (min-width: 640px) 45vw, 90vw"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/80 to-transparent" />
-                  <span className="absolute left-4 top-4 font-display text-2xl text-luxury-gold/70">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-4 text-center sm:p-5">
-                  <h3 className="font-display text-base leading-tight text-luxury-cream sm:text-lg">
-                    {dish.name[lang] ?? dish.name.fr}
-                  </h3>
-                  <p className="mt-2 hidden flex-1 font-body text-sm leading-relaxed text-luxury-champagne/65 sm:block">
-                    {dish.desc[lang] ?? dish.desc.fr}
-                  </p>
-                  <span className="num-elegant mt-3 font-display text-base text-luxury-gold-bright sm:mt-4 sm:text-lg">
-                    {prix(dish.price)}
-                  </span>
-                </div>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 

@@ -1,0 +1,8 @@
+# Tant que le site vit sous websiteodyssey.github.io/soulac_imperial/, ce
+# fichier n'est pas lu par les robots : ils ne consultent que le robots.txt
+# de la racine du domaine. Il deviendra actif dès qu'un domaine propre sera
+# rattaché ; en attendant, déclarer le sitemap à la main dans Search Console.
+User-agent: *
+Allow: /
+
+Sitemap: https://websiteodyssey.github.io/soulac_imperial/sitemap.xml
