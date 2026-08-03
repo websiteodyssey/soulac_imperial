@@ -185,8 +185,10 @@ export const GALERIE_SALLE: MediaKey[] = [
 ];
 
 /**
- * Galerie — les plats, tous photographiés dans la maison. Aucun de ces
- * clichés ne sert ailleurs : la galerie ne redit pas ce que l'accueil montre.
+ * Galerie — la série complète des photographies prises dans la maison, les
+ * quatorze. La galerie est le catalogue : elle montre tout, y compris les
+ * clichés qui servent par ailleurs de bandeau sur la carte ou de vignette sur
+ * l'accueil. C'est la seule liste où la répétition est voulue.
  */
 export const GALERIE_TABLE: MediaKey[] = [
   "tartareGambero",
@@ -198,6 +200,11 @@ export const GALERIE_TABLE: MediaKey[] = [
   "saumonBraise",
   "vapeurSiumai",
   "vapeurHakao",
+  "plateauGlace",
+  "plateauFumee",
+  "tempuraCrevettes",
+  "boeufPoele",
+  "tatakiThon",
 ];
 
 /**
