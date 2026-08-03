@@ -18,6 +18,7 @@ export const SPECIALITES_LIST: Specialite[] = [
   { photo: "wok", label: { fr: "Woks au feu vif", en: "Fierce-Flame Wok" } },
   { photo: "canard", label: { fr: "Canard laqué", en: "Glazed Duck" } },
   { photo: "plateau", label: { fr: "Plateau Impérial", en: "Imperial Platter" } },
+  { photo: "ramen", label: { fr: "Nouilles sautées du chef", en: "Chef's Stir-Fried Noodles" } },
   { photo: "epices", label: { fr: "Épices & condiments", en: "Spices & Condiments" } },
   { photo: "dessert", label: { fr: "Desserts", en: "Desserts" } },
 ];

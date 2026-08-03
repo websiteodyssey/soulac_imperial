@@ -16,7 +16,14 @@ import FacebookIcon from "../components/FacebookIcon";
 import Photo from "../components/Photo";
 import { siteConfig } from "../config/siteConfig";
 import AmbianceVideo from "../components/AmbianceVideo";
-import { MOSAIQUE, MAISON_DUO, FAMILLES_PHOTOS, SERVICE_PHOTOS } from "../config/media";
+import ScrollGlide from "../components/ScrollGlide";
+import {
+  MOSAIQUE,
+  MAISON_DUO,
+  FAMILLES_PHOTOS,
+  SERVICE_PHOTOS,
+  SERVICE_BANDE,
+} from "../config/media";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -249,6 +256,92 @@ const Home = () => {
         </div>
       </section>
 
+      {/* ═══════════════════════ LE SERVICE ═══════════════════════ */}
+      {/* Le seul passage animé de la page. La vidéo tient la colonne de droite,
+          encadrée de deux photos décalées — la composition du bloc « la maison »,
+          reprise pour rester dans la même écriture. Rien n'y est nommé : on y
+          montre le service, jamais un plat. */}
+      <section className="relative overflow-hidden bg-luxury-black py-12 grain md:py-24">
+        {/* Bande photographique sortant du bord gauche de l'écran et arrêtée
+            avant le bord droit, arrondie de ce seul côté. Un dégradé l'éteint
+            vers la droite : la photo se voit à l'entrée, le texte reste lisible
+            par-dessus, et la vidéo garde un fond noir. */}
+        <ScrollGlide
+          from="left"
+          amplitude={102}
+          decoratif
+          className="pointer-events-none absolute inset-y-6 left-0 hidden w-[58%] overflow-hidden rounded-r-[2.5rem] border-y border-r border-luxury-gold/20 lg:block"
+        >
+          <Photo name={SERVICE_BANDE} sizes="60vw" className="h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-luxury-black/45 via-luxury-black/85 to-luxury-black" />
+        </ScrollGlide>
+
+        <div className="section-padding relative z-10 mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
+          <Reveal className="order-2 text-center lg:order-1 lg:text-left">
+            <p className="font-accent text-xs uppercase tracking-luxury-wide text-luxury-gold">
+              {t("home.serviceEyebrow")}
+            </p>
+            <h2 className="mt-4 pb-1 font-display text-display-md leading-tight text-gold-foil">
+              {t("home.serviceTitle")}
+            </h2>
+            <p className="mt-6 font-body text-lg leading-relaxed text-luxury-champagne/75">
+              {t("home.serviceText")}
+            </p>
+            <Link
+              to="/galerie"
+              className="group mt-8 inline-flex items-center gap-2 rounded-full border border-luxury-gold px-8 py-4 font-accent text-sm uppercase tracking-luxury text-luxury-gold transition-colors hover:bg-luxury-gold hover:text-luxury-black"
+            >
+              {t("home.ambianceCta")}
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Reveal>
+
+          <Reveal delay={140} className="order-1 lg:order-2">
+            {/* Course volontairement courte : la vidéo répond à la bande sans
+                lui disputer l'attention. Les deux partagent la même horloge,
+                celle de la section — elles convergent, puis se retirent
+                chacune de son côté. */}
+            <ScrollGlide
+              from="right"
+              amplitude={26}
+              className="relative mx-auto w-full max-w-sm lg:mx-0 lg:ml-auto"
+            >
+              {/* Photo haute, débordant à gauche de la vidéo. */}
+              <div className="absolute -left-6 top-10 z-20 w-28 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:-left-14 md:w-40">
+                <Photo
+                  name={SERVICE_PHOTOS[0]}
+                  alt={t("gallery.plateAlt")}
+                  sizes="(min-width: 768px) 10rem, 7rem"
+                  className="h-28 w-full object-cover md:h-40"
+                />
+              </div>
+
+              <div className="overflow-hidden rounded-xl border border-luxury-gold/25 shadow-2xl shadow-black/70">
+                <AmbianceVideo
+                  label={t("home.serviceVideoAlt")}
+                  className="block aspect-[9/16] w-full object-cover"
+                />
+              </div>
+
+              {/* Seconde photo, en bas à droite, pour fermer la composition. */}
+              <div className="absolute -right-4 bottom-10 z-20 w-24 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:-right-10 md:w-36">
+                <Photo
+                  name={SERVICE_PHOTOS[1]}
+                  alt={t("gallery.plateAlt")}
+                  sizes="(min-width: 768px) 9rem, 6rem"
+                  className="h-24 w-full object-cover md:h-36"
+                />
+              </div>
+
+              <span
+                className="pointer-events-none absolute -right-3 -top-3 h-16 w-16 border-r border-t border-luxury-gold/50"
+                aria-hidden="true"
+              />
+            </ScrollGlide>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ═══════════════════════ SIX FAMILLES ═══════════════════════ */}
       <section className="relative overflow-hidden bg-luxury-ink py-10 grain md:py-20">
         <div className="section-padding relative z-10">
@@ -337,70 +430,6 @@ const Home = () => {
               {t("home.ambianceCta")}
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
             </Link>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ═══════════════════════ LE SERVICE ═══════════════════════ */}
-      {/* Le seul passage animé de la page. La vidéo tient la colonne de droite,
-          encadrée de deux photos décalées — la composition du bloc « la maison »,
-          reprise pour rester dans la même écriture. Rien n'y est nommé : on y
-          montre le service, jamais un plat. */}
-      <section className="relative overflow-hidden bg-luxury-black py-12 grain md:py-24">
-        <div className="section-padding relative z-10 mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
-          <Reveal className="order-2 text-center lg:order-1 lg:text-left">
-            <p className="font-accent text-xs uppercase tracking-luxury-wide text-luxury-gold">
-              {t("home.serviceEyebrow")}
-            </p>
-            <h2 className="mt-4 pb-1 font-display text-display-md leading-tight text-gold-foil">
-              {t("home.serviceTitle")}
-            </h2>
-            <p className="mt-6 font-body text-lg leading-relaxed text-luxury-champagne/75">
-              {t("home.serviceText")}
-            </p>
-            <Link
-              to="/galerie"
-              className="group mt-8 inline-flex items-center gap-2 rounded-full border border-luxury-gold px-8 py-4 font-accent text-sm uppercase tracking-luxury text-luxury-gold transition-colors hover:bg-luxury-gold hover:text-luxury-black"
-            >
-              {t("home.ambianceCta")}
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-            </Link>
-          </Reveal>
-
-          <Reveal delay={140} className="order-1 lg:order-2">
-            <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:ml-auto">
-              {/* Photo haute, débordant à gauche de la vidéo. */}
-              <div className="absolute -left-6 top-10 z-20 w-28 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:-left-14 md:w-40">
-                <Photo
-                  name={SERVICE_PHOTOS[0]}
-                  alt={t("gallery.plateAlt")}
-                  sizes="(min-width: 768px) 10rem, 7rem"
-                  className="h-28 w-full object-cover md:h-40"
-                />
-              </div>
-
-              <div className="overflow-hidden rounded-xl border border-luxury-gold/25 shadow-2xl shadow-black/70">
-                <AmbianceVideo
-                  label={t("home.serviceVideoAlt")}
-                  className="block aspect-[9/16] w-full object-cover"
-                />
-              </div>
-
-              {/* Seconde photo, en bas à droite, pour fermer la composition. */}
-              <div className="absolute -right-4 bottom-10 z-20 w-24 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:-right-10 md:w-36">
-                <Photo
-                  name={SERVICE_PHOTOS[1]}
-                  alt={t("gallery.plateAlt")}
-                  sizes="(min-width: 768px) 9rem, 6rem"
-                  className="h-24 w-full object-cover md:h-36"
-                />
-              </div>
-
-              <span
-                className="pointer-events-none absolute -right-3 -top-3 h-16 w-16 border-r border-t border-luxury-gold/50"
-                aria-hidden="true"
-              />
-            </div>
           </Reveal>
         </div>
       </section>

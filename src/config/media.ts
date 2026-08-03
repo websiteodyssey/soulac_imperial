@@ -147,6 +147,7 @@ export const SPECIALITES: MediaKey[] = [
   "wok",
   "canard",
   "plateau",
+  "ramen",
   "epices",
   "dessert",
 ];
@@ -160,9 +161,9 @@ export const FAMILLES_PHOTOS: MediaKey[] = [
   "carteMaki",
   "carteDimsum",
   "carteWok",
-  // « ramen » vient du bandeau défilant, qui n'en compte donc plus que huit :
-  // une photo ne peut pas tenir les deux rôles sur une même page.
-  "ramen",
+  // Seule photographie de la maison dans cette grille : les créations du chef
+  // sont les plats dont nous avons de vraies images.
+  "tartareGambero",
   "dessertDresse",
 ];
 
@@ -175,6 +176,17 @@ export const MOSAIQUE: MediaKey[] = ["panoramique", "ocre", "miroir", "intime"];
  * une carte. Aucune des deux ne paraît ailleurs sur l'accueil.
  */
 export const SERVICE_PHOTOS: MediaKey[] = ["cuilleresSaumon", "vapeurHakao"];
+
+/**
+ * Accueil — la bande qui sort du bord gauche derrière le bloc « en salle » et
+ * s'arrête avant d'atteindre le bord droit. Elle habille un fond autrement nu ;
+ * un dégradé la fait disparaître sous le texte, qui reste lisible.
+ *
+ * Il faut ici une vue profonde, pas un gros plan : agrandie sur plus de la
+ * moitié de l'écran, une assiette ne serait qu'une tache. La salle aux fresques
+ * répond en outre au texte du bloc, qui parle des plateaux la traversant.
+ */
+export const SERVICE_BANDE: MediaKey = "fresques";
 
 /** Galerie — toutes les vues de salle sauf celle de son propre hero (`bar`). */
 export const GALERIE_SALLE: MediaKey[] = [
