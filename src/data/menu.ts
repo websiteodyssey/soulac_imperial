@@ -671,13 +671,6 @@ export const MENU: MenuCategory[] = [
         desc: { fr: "Verre 12 cl, sec et minéral, choisi pour le poisson cru.", en: "12 cl glass, dry and mineral, chosen for raw fish." },
         price: 5.5,
       },
-      {
-        id: "b5",
-        name: { fr: "Limonade au Yuzu", en: "Yuzu Lemonade" },
-        desc: { fr: "Maison, agrume japonais et menthe fraîche.", en: "House-made, Japanese citrus and fresh mint." },
-        price: 5.0,
-        tags: ["veggie"],
-      },
     ],
   },
 ];

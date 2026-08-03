@@ -175,7 +175,7 @@ export const MOSAIQUE: MediaKey[] = ["panoramique", "ocre", "miroir", "intime"];
  * comme elle, elles ne portent aucune légende : le bloc montre le geste, pas
  * une carte. Aucune des deux ne paraît ailleurs sur l'accueil.
  */
-export const SERVICE_PHOTOS: MediaKey[] = ["cuilleresSaumon", "vapeurHakao"];
+export const SERVICE_PHOTOS: MediaKey[] = ["vapeurSiumai", "plateauMixte"];
 
 /**
  * Accueil — la bande qui sort du bord gauche derrière le bloc « en salle » et

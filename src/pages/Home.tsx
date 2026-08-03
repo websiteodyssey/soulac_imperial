@@ -345,13 +345,17 @@ const Home = () => {
               amplitude={26}
               className="relative mx-auto w-full max-w-[15rem] sm:max-w-[17rem] lg:mx-0 lg:ml-auto lg:max-w-sm"
             >
-              {/* Photo haute, débordant à gauche de la vidéo. */}
-              <div className="absolute -left-6 top-10 z-20 w-28 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:-left-14 md:w-40">
+              {/* Vignette débordant à gauche de la vidéo.
+                  Ces deux photographies sont des vues plongeantes où le plat
+                  n'occupe qu'un tiers du cadre : recadrées au centre, elles ne
+                  montraient que la table. L'agrandissement va chercher le plat
+                  lui-même, sans qu'il faille découper de nouveaux fichiers. */}
+              <div className="absolute -left-5 top-8 z-20 w-32 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:-left-14 md:w-44">
                 <Photo
                   name={SERVICE_PHOTOS[0]}
                   alt={t("gallery.plateAlt")}
-                  sizes="(min-width: 768px) 10rem, 7rem"
-                  className="h-28 w-full object-cover md:h-40"
+                  sizes="(min-width: 768px) 11rem, 8rem"
+                  className="h-32 w-full scale-[1.55] object-cover object-center md:h-44"
                 />
               </div>
 
@@ -362,13 +366,15 @@ const Home = () => {
                 />
               </div>
 
-              {/* Seconde photo, en bas à droite, pour fermer la composition. */}
-              <div className="absolute -right-4 bottom-10 z-20 w-24 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:-right-10 md:w-36">
+              {/* Seconde vignette, en bas à droite, pour fermer la composition.
+                  Le plateau est décentré vers la gauche dans son cadre : le
+                  point de mire est déplacé d'autant. */}
+              <div className="absolute -right-4 bottom-8 z-20 w-28 overflow-hidden rounded-lg border border-luxury-gold/30 shadow-2xl shadow-black/60 md:-right-10 md:w-40">
                 <Photo
                   name={SERVICE_PHOTOS[1]}
                   alt={t("gallery.plateAlt")}
-                  sizes="(min-width: 768px) 9rem, 6rem"
-                  className="h-24 w-full object-cover md:h-36"
+                  sizes="(min-width: 768px) 10rem, 7rem"
+                  className="h-28 w-full scale-[1.7] object-cover object-[38%_46%] md:h-40"
                 />
               </div>
 
