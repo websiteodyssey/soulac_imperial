@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 /** Adresse publique du site — sert de base aux URL canoniques. */
-const SITE_URL = "https://websiteodyssey.github.io/soulac_imperial/";
+const SITE_URL = "https://soulac-imperial.pages.dev/";
 
 /** À chaque route correspond la clé de traduction de son titre et de son résumé. */
 const CLES: Record<string, string> = {
