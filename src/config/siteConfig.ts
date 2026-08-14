@@ -12,8 +12,13 @@ export const siteConfig = {
   reservationUrl: "",
 
   email: "contact@soulacimperial.fr",
-  phone: "09 53 57 88 88",
-  phoneHref: "tel:+33953578888",
+  /* La maison a deux lignes : le fixe et un mobile. Les deux sont affichés
+     partout où le téléphone apparaît (bloc « nous trouver » et pied de page),
+     chacun cliquable. Pour en retirer un, il suffit de le sortir de la liste. */
+  phones: [
+    { label: "09 53 57 88 88", href: "tel:+33953578888" },
+    { label: "07 50 05 12 48", href: "tel:+33750051248" },
+  ],
 
   address: {
     street: "1 Rue el Burgo de Osma",

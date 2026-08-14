@@ -36,7 +36,7 @@ const ContactDetails = ({ actions, showSocial = false, mapDesktopOnly = false }:
   // Décalage d'apparition : les cartes absentes ne laissent pas de trou dans la
   // cascade. On calcule les délais une fois, à partir des cartes réellement rendues.
   const cards = ["address", "phone", "email", "hours", "social"].filter((c) => {
-    if (c === "phone") return Boolean(siteConfig.phone);
+    if (c === "phone") return siteConfig.phones.length > 0;
     if (c === "email") return Boolean(siteConfig.email);
     if (c === "social") return showSocial && Boolean(instagram || facebook);
     return true;
@@ -65,19 +65,25 @@ const ContactDetails = ({ actions, showSocial = false, mapDesktopOnly = false }:
           </div>
         </Reveal>
 
-        {siteConfig.phone && (
+        {siteConfig.phones.length > 0 && (
           <Reveal delay={delayOf("phone")} className="luxury-card-dark flex items-center gap-4 p-4 md:gap-5 md:p-6">
             <span className={badge}>
               <Phone size={22} strokeWidth={1.6} />
             </span>
             <div>
               <h3 className={label}>{t("contact.phoneTitle")}</h3>
-              <a
-                href={siteConfig.phoneHref}
-                className="text-luxury-champagne/85 text-lg hover:text-luxury-gold transition-colors"
-              >
-                {siteConfig.phone}
-              </a>
+              {/* Les deux lignes de la maison, l'une sous l'autre. */}
+              <div className="flex flex-col">
+                {siteConfig.phones.map((tel) => (
+                  <a
+                    key={tel.href}
+                    href={tel.href}
+                    className="text-luxury-champagne/85 text-lg hover:text-luxury-gold transition-colors"
+                  >
+                    {tel.label}
+                  </a>
+                ))}
+              </div>
             </div>
           </Reveal>
         )}

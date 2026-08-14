@@ -94,12 +94,17 @@ const Footer = () => {
                 {siteConfig.address.city}
               </a>
             </li>
-            {siteConfig.phone && (
-              <li className="flex items-center gap-3">
-                <Phone size={18} className="text-luxury-gold shrink-0" />
-                <a href={siteConfig.phoneHref} className="hover:text-luxury-gold transition-colors">
-                  {siteConfig.phone}
-                </a>
+            {siteConfig.phones.length > 0 && (
+              <li className="flex items-start gap-3">
+                <Phone size={18} className="text-luxury-gold mt-1 shrink-0" />
+                {/* Les deux lignes, empilées sous la même icône. */}
+                <span className="flex flex-col">
+                  {siteConfig.phones.map((tel) => (
+                    <a key={tel.href} href={tel.href} className="hover:text-luxury-gold transition-colors">
+                      {tel.label}
+                    </a>
+                  ))}
+                </span>
               </li>
             )}
             {siteConfig.email && (

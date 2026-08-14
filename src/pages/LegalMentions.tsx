@@ -24,7 +24,8 @@ const LegalMentions = () => {
       [t("legal.fields.manager"), L.manager],
       [t("legal.fields.activity"), L.activity],
       [t("legal.fields.email"), siteConfig.email],
-      [t("legal.fields.phone"), siteConfig.phone],
+      /* Les deux lignes de la maison, sur une seule ligne de mentions. */
+      [t("legal.fields.phone"), siteConfig.phones.map((tel) => tel.label).join(" · ")],
     ] as [string, string][]
   ).filter(([, value]) => value.trim().length > 0);
 
