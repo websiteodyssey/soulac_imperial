@@ -9,7 +9,7 @@ export const siteConfig = {
 
   // ⬇︎ COLLER ICI LE LIEN DE RÉSERVATION (TheFork, Odyssey, Google…).
   //    Tant qu'il est vide, le bouton « Réserver » renvoie vers la page Contact.
-  reservationUrl: "",
+  reservationUrl: "https://reservation.ody.app/e290b714-2401-495b-9e0d-bd2a6982c418",
 
   email: "contact@soulacimperial.fr",
   /* La maison a deux lignes : le fixe et un mobile. Les deux sont affichés

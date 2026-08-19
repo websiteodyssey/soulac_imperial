@@ -27,11 +27,12 @@ npm run lint
 
 ### Le bouton « Réserver »
 
-`siteConfig.reservationUrl` est **vide** pour l'instant : tant qu'il l'est, tous
-les boutons « Réserver » du site renvoient vers la page Contact (aucun lien
-mort). Il suffit d'y coller l'URL du module de réservation — TheFork, Odyssey,
-Google… — pour que les boutons l'ouvrent dans un nouvel onglet, partout, sans
-autre modification.
+`siteConfig.reservationUrl` porte l'URL du module de réservation Odyssey :
+tous les boutons « Réserver » du site l'ouvrent dans un nouvel onglet, partout,
+sans autre modification. Pour changer de prestataire — TheFork, Google… — il
+suffit d'y coller la nouvelle URL. Remise à vide (`""`), elle fait de nouveau
+renvoyer les boutons vers la page Contact : aucun lien mort dans un cas comme
+dans l'autre.
 
 Toute information laissée vide dans `siteConfig` (téléphone, réseau social,
 ligne des mentions légales) est automatiquement masquée à l'écran.
