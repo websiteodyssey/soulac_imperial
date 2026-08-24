@@ -208,10 +208,23 @@ export const MENU: MenuCategory[] = [
         tags: ["spicy", "signature"],
       },
       {
+        id: "p11",
+        name: { fr: "Bœuf aux Oignons", en: "Beef with Onions" },
+        desc: { fr: "" },
+        price: 13.0,
+      },
+      {
         id: "p4",
         name: { fr: "Crevettes Sauce Piquante" },
         desc: { fr: "" },
-        price: 12.0,
+        price: 13.0,
+        tags: ["spicy"],
+      },
+      {
+        id: "p12",
+        name: { fr: "Calamar à la Sauce Piquante", en: "Squid in Spicy Sauce" },
+        desc: { fr: "" },
+        price: 13.0,
         tags: ["spicy"],
       },
       {
@@ -230,7 +243,7 @@ export const MENU: MenuCategory[] = [
         id: "p7",
         name: { fr: "Poulet Croustillant à la Sauce du Chef" },
         desc: { fr: "" },
-        price: 11.0,
+        price: 12.0,
       },
       {
         id: "p8",
