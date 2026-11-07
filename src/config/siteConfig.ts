@@ -35,8 +35,8 @@ export const siteConfig = {
 
   // Laisser vide pour masquer l'icône.
   social: {
-    instagram: "https://instagram.com/soulacimperial",
-    facebook: "https://facebook.com/soulacimperial",
+    instagram: "https://www.instagram.com/soulac_imperial/",
+    facebook: "https://www.facebook.com/p/Soulac-Imp%C3%A9rial-61593040524776/",
   },
 
   mapsUrl:
